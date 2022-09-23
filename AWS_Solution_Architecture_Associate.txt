@@ -132,7 +132,10 @@ Key Terminology for IAM:
 	21. Control access to buckets using either a bucket ACL or bucket policies.
 	22. When we change from Allow to Deny on a policy OR create a policy with DENY, it's called an explicit DENY and it would always overwrite the allow in any other policy.
 	23. By default, all permissions are implicitly denied.
-
+	23. Versioning configuration is applicable to bucket level and after that you can version each item.
+		  Bucket -> properties -> Bucket versioning  [Edit]
+        24. When doing storage lifecycle , it is mentioned that from Glacier instant retrieval to Glacier Deep Archive 
+	    the integer value must be > 90 than the value for glacier
 
 * Important: Read S3 FAQ's: https://aws.amazon.com/s3/faqs/
 
@@ -195,7 +198,7 @@ Imp:
 *  S3 LifeCycle Management  - Explanation
 	1. Automates moving your object b/w the different storage tiers - thereby maximizing cost effectiveness 
 	
-	    S3 Standard -------------------------- S3 IA ------------------------------------ Glacier
+	    S3 Standard ------------------------> S3 IA ----------------------------------> Glacier
 	  Keep for 30 Days                     After 30 Days 				  After 90 Days 
 	 
 	2. You can also use lifecycle managment to move different versions of object to different storage tiers
