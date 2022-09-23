@@ -56,8 +56,15 @@ Key Terminology for IAM:
 	10. S3 Model: 
 		- Read after Write consistency for PUTS of new objects (if you write a new files and read it immediately afterwards, you will be able to view the data)
 		- Eventual Consistency for overwrite PUTS and DELETES (can take sometime to propagate) (If you update AN EXISTING file or delete a file and read it immediately, you may get the older version, or you may not. Basically changes to objects can take a little bit of time to propagate.)
+		
 	11. S3 Storage Classes
-		1. S3 Standard: 99.99% availability, 99.99999999999% durability stored redundantly across multiple devices in multiple facilities and is designed to sustain the loss of 2 facilities concurrently.
+		1. S3 Standard: 
+		    - Availability : 99.99% availability
+		    - Durability : 99.99999999999% 
+		    - Data is stored redundantly across multiple devices in multiple facilities (>=3 AZz)
+		    - Frequent Access
+		    - default storage class 
+		    - static web site , content distribution , mobile and gaming apps and big data analytics. 
 		2. S3 - IA (Infrequently Accessed): 99.9% availability, For the data that is accessed less frequently, but requires rapid access when needed. Lower fee than S3, but you are charged a retrieval fee.
 		3. S3 - Intelligent Tiering: 99.9% availability, Designed to optimise costs by automatically moving data to the most cost-effective access tier, without performance impact or operational overhead.
 		4. S3 One Zone IA (also called S3 RRS): 99.5% availability, For where you want a lower-cost option for infrequently accessed data, but do not require the multiple availability zone data resilience.
