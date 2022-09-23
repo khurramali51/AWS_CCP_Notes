@@ -172,6 +172,13 @@ Key Terminology for IAM:
 			3. Serve-Side Encryption with Customer Provided Keys - SSE-C
 		b. Client-Side Encryption	
 			4.  Done by the client
+	3. when to use KMS over S3 encryption:
+		- A SSE-KMS key is used when you need to have full control over the key lifecycle and in particular access restrictions on key usage. 
+		  Access restriction are policies that allows you to limit access to key to specific people or services and you can have an audit on key
+		  usage. You can not set a key policy on a standard SSE-S3 key, but you can do it on SSE-KMS key.
+		  Use Case:
+		  	- when security regulations requires strict control over the key used to encrypt objects.
+			
 	Lab: We can encrypt the files in S3 by using AES-256 or AWS-KMS.
 	     Note: AWS-KMS is beyond the scope of this exam
 
