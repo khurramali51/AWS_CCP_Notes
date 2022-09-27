@@ -276,7 +276,7 @@ Imp:
 	3. S3 Performance Uploads
 		Multipart Uploads:
 			1. Recommended for files over 100MB
-			2. Required for files over 5GB
+			2. Required for files over 5GB (you are forced to used it)
 			3. Parallelise uploads (increase efficiency)
 		
 	4. S3 Performance Downloads:
