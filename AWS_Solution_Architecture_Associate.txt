@@ -308,7 +308,7 @@ Imp:
 		- once replication is truned on , all subsequent updated objects will be replicated automatically.
 	3. (New) --> AWS announed a new Amazon S3 Batch replication feature on 08 FEB 2022.
 		      - this feature will allows replication of existing objects to different bucket on demand.
-	4. Delete markers are not replicated by default
+	4. Delete markers are not replicated by default - you have to enable them.
 
 
 *  S3 Select and Glacier Select:
