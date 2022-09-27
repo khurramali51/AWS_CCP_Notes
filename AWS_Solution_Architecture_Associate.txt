@@ -300,6 +300,17 @@ Imp:
 	6. Should be used for any files over 100MB and must be used for any file over 5GB.
 	7. Use S3 byte-range fetches to increase performance when downloading files to S3.
 	
+
+* S3 - Backing up data with S3 Replication (a.k.a : cross region replication):
+ 	1.You can replication objects from one bucket to another 
+		- versioning must be enabled on both source and destination buckets
+	2. Objects in an existing buckets are not replicated automatically
+		- once replication is truned on , all subsequent updated objects will be replicated automatically.
+	3. (New) --> AWS announed a new Amazon S3 Batch replication feature on 08 FEB 2022.
+		      - this feature will allows replication of existing objects to different bucket on demand.
+	4. Delete markers are not replicated by default
+
+
 *  S3 Select and Glacier Select:
 	S3 Select: S3 Select enables applications to retrieve only a subset of data from an object by using simple SQL expressions. 
 	By using S3 Select to retrieve only the data needed by your application, you can achieve drastic performance increases - in many cases, you can get as much as 400% improvement (up to 80% cheaper)
