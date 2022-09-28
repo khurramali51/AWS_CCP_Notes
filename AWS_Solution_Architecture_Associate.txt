@@ -646,7 +646,10 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 
 ** EC2 Pricing Models:
 	1. On Demand: Allows you to pay a fixed rate by the hour (or by the second) with no commitment.
-	2. Reserved: Provides you with a capacity reservation, and offer significant discount on the hourly charge for an instance. Contracts are 1 - 3 year terms. Higher discount with upfront payments and longer contracts.
+	2. Reserved: 
+		- Provides you with a capacity reservation, and offer significant discount on the hourly charge for an instance. Contracts are 1 - 3 year terms. 
+		  Higher discount with upfront payments and longer contracts.
+		- They operate at a regional level
 	3. Spot: Enables you to bid whatever price you want for instance capacity, providing for even greater savings if your applications have flexible start and end times.
 	4. Dedicated Hosts: Physical EC2 server dedicated for your use. Dedicated hosts can help reduce the costs by allowing you to use your existing server-bound software licenses.
 
@@ -659,23 +662,45 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 		1. Applications with steady or predictable usage.
 		2. Applications that require reserved capacity.
 		3. Users able to make upfront payments to reduce their total computing costs even further.
+		4. The discount depends on the period of contact and upfront payment.
 	
 	- Reserved Pricing Types:
 		1. Standard Reserved Instances: These offer up to 75% off on demand instances. The more you pay up front and the longer the contract, the greater the discount.
-		2. Convertible Reserved Instances: These offer up to 54% off on demand capability to change the attributed of the RI as long as the exchange results in creation of Reserved Instances of equal or greater value.
-		3. Scheduled Reserved Instances: These are available to launch within the time windows you reserve. This option allows you to match your capacity reservation to a predictable recurring schedule that only requires a fraction of a day, a week or a month.
+		2. Convertible Reserved Instances: 
+			- These offer up to 54% off on demand capability to change the attributed of the RI as long as the exchange results in creation of Reserved 
+			  Instances of equal or greater value. 
+			- attributes means resources : such as memory , cpu usage, networking or storage.
+			- with this type of EC2 instance you can identify which class is more useful for you @ any giving time.like Compute base EC2 instace
+			  or GPU based instaces etc.
+			- Remember you can only upgrade (equal or greater value)
+		3. Scheduled Reserved Instances: 
+			- These are available to launch within the time windows you reserve. This option allows you to match your capacity reservation to a 
+			  predictable recurring schedule that only requires a fraction of a day, a week or a month.
+			- example : people in your organization coming at 9:00 and all needs to connect to internet (means the usage is going to be more)
+				    you can schedule an EC2 instance with more network capacity for that time (let say for 2 hours 9-11)
+			- use for predictable recurring schedule that only requires a fraction of a day, week or month.
 
 	- Spot pricing is useful for:
 		1. Applications that have flexible start and end times.
 		2. Applications that are only feasible at very low compute prices.
+			- if you want to do some quick computing at middle of night when there are lots of capacity available, instead of monday morning.
 		3. Users with urgent computing needs for large amounts of additional capacity.
+			- image rendering
+			- Genomic sequencing 
+			- Algorithimic trading engines
+		4. Purchase used capacity @ discout of up to 90%. Remember: price fluctuate with supply and demand.
+		5. Spot instance price moves around (like a share price), you mention which price your want your instance ,as the price hit 
+		   you have your spot instance , when the price move you lose your spot instance.
+		
 	
 	- Dedicated Hosts pricing is useful for:
 		1. Useful for regulatory requirements that may not support multi-tenant virtualisation.
 		2. Great for licensing which doesn't support multi-tenancy or cloud.
-		3. Can be purchased On-Demand (hourly)
+		3. Can be purchased On-Demand (hourly) - expensive.
 		4. Can be purchased as a Reservation for up to 70% off the On-Demand price.
-
+	
+	Note: for pricing these instances go to https://calculator.aws/#/
+	
 	- EC2 instance classes FIGHTDRMCPXZ
 		1. F1 - For FPGA (Filed Programmable gate array) - Genomics research, financial analytics, real-time video processing, big data etc
 		2. I3 - For IOPS (High Speed Storage) - NoSQL DBs, Data Warehousing etc
