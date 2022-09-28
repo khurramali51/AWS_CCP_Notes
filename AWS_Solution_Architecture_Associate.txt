@@ -762,16 +762,6 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 	   Imp Note: If the spot instance is terminated by Amazon EC2, you will not be charged for a partial hour of usage. However, if you terminate the instance yourself, you will be charged for any hour in which the instance ran.
 	4. Dedicated Hosts: Physical EC2 server dedicated for your use. Dedicated Hosts can help reduce costs by allowing you to use your existing server-bound software licenses.
 
-* Security Groups Exam Tips:
-	1. All inbound traffic is blocked by default - so we enable some IP and ports using Security Groups.
-	2. All outbound traffic is allowed.
-	3. Security Groups are STATEFUL, when you create an inbound rule and an outbound rule is automatically created.
-	4. NACL's are STATELESS, when you create an inbound rule and an outbound rule is not automatically created.
-	5. You CANNOT block specific IP's/Port's using Security Groups instead use Network Access Control Lists.
-	6. You can have any number of EC2 instances within a security group.
-	7. You can have multiple Security Groups attached/assigned to EC2 instances.
-	8. Changes to Security Groups take effect immediately.
-	9. You can specify allows rule, but not deny rules.
 	
 ** Using Roles 
 	1. Role:
@@ -780,7 +770,55 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 		- it can be assigned to user, groups or service account 
 		- its temporary 
 		-** it can allow cross-account access. this allow one AWS account the ability to interact with resource in other AWS Account.
+		-** Roles are prefereed from a security perspective. 
+		- roles allow you to provide access withtou the useof access key Ids and secrete access keys.
+		- Policies control a roles permssions 
+		- You can update a policy attached to a role (immediate effect)
+		- you can attach/detach role to runing EC2 instances without having to stop or terminate. 
+	        - ** remember: always chose role over hard coding your credentials (includy access keys etc).
+		
+		
+** Security Groups and Bootstrap Scripts
+    Security is vitual firewalls for your EC2 instance. Each security group can have multiple EC2 instances.
+	1. In security group by default everhting is blocked 
+	2. To let everything in you have to create a inbound rule with IP address 0.0.0.0/0 or ::0 for IPV6 compatabiligy
+	3. You can communicate to EC2 instance using ssh/rdp/http with correct port
+	4. Bootstrap Scripts : 
+		- A script that runs when the instance first runs
+		     - when you first boot up and EC2 instance , the script will run 
+		     - the script will start running at root level
+		     Example: 
+		     	#! /bin/bash (#! this sign called shabang)
+			yum update -y
+			yum install httpd -y   [installing apache webserver]
+			service httpd start  [starting apache webserver]
+		        cd /var/www/html
+			echo "<html><body><h1>Hellow world </h1></body></html">  > index.html
+		- how to run 
+			In EC2 configuration
+			     - advance Details 
+			     	- User data 
+					- select "as text"
+						- paste the commands
+							
+			
+		     note: the above tasks / commands will run at boot time and increase the amount of time to instantiate/boot the instance. 
+		           but this will automate the installation.
+
+* Security Groups Exam Tips:
+	1. All inbound traffic is blocked by default - so we enable some IP and ports using Security Groups.
+	2. All outbound traffic is allowed.
+	3. Security Groups are STATEFUL, when you create an inbound rule and an outbound rule is automatically created.v
+	4. NACL's are STATELESS, when you create an inbound rule and an outbound rule is not automatically created.
+	5. You CANNOT block specific IP's/Port's using Security Groups instead use Network Access Control Lists.
+	6. You can have any number of EC2 instances within a security group.
+	7. You can have multiple Security Groups attached/assigned to EC2 instances.
+	8. Changes to Security Groups take effect immediately.
+	9. You can specify allows rule, but not deny rules.
 	
+====================================================================================================================================================================
+	
+
 ** EBS 101
 	Amazon Elastic Block Storage (EBS) provides persistent block storage volumes for use with Amazon EC2 instances in the AWS cloud. 
 	Each Amazon EBS volume is automatically replicated within it's Availability Zone to protect you from component failure, offering high availability and durability.
