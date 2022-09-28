@@ -773,6 +773,14 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 	8. Changes to Security Groups take effect immediately.
 	9. You can specify allows rule, but not deny rules.
 	
+** Using Roles 
+	1. Role:
+		- its an identity object in IAM 
+		- it contains specific permisions
+		- it can be assigned to user, groups or service account 
+		- its temporary 
+		-** it can allow cross-account access. this allow one AWS account the ability to interact with resource in other AWS Account.
+	
 ** EBS 101
 	Amazon Elastic Block Storage (EBS) provides persistent block storage volumes for use with Amazon EC2 instances in the AWS cloud. 
 	Each Amazon EBS volume is automatically replicated within it's Availability Zone to protect you from component failure, offering high availability and durability.
