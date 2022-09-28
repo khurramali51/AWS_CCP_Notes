@@ -700,7 +700,33 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 		4. Can be purchased as a Reservation for up to 70% off the On-Demand price.
 	
 	Note: for pricing these instances go to https://calculator.aws/#/
+	Demo Notes;
+		- Security group : virtual firewall in a cloud ( this is where we allow traffic in or out of your EC2 instance )  
+		- Subnet : equals an Avaliblity Zone 
+		- In one security group you have can have many EC2 instances.
+		- Linux based EC2 instance :    using ssh port 22
+		- Windows based EC2 instance :  using RDP port 3389
+	        - 0.0.0.0/0, ::/0  ( :: ) <- means IPV 6 compatible
 	
+	Demo - CLI 
+		- aws S3 ls [list all the buckets]
+		- create a group and user ; give group S3fullaccess policy
+		- aws configure --< command to login 
+			- add access kye id 
+			- add secrete access key 
+		- aws s3 mb  s3://ufc280ic     [mb means make bucket]
+		- create a file : 
+			echo "Hello" > hello.txt
+		- move to s3 
+			aws S3 cp hello.txt s3://ufc280ic
+	
+	Notes: 
+		Secret Access Key: 
+			You will only see this once , if you lose it you can delete the access key ID and secret access key and regenerate them, 
+			you will need to run aws configuration again. 
+		Don't Share Key Pairs
+			Every developer should have their own key/pair
+			
 	- EC2 instance classes FIGHTDRMCPXZ
 		1. F1 - For FPGA (Filed Programmable gate array) - Genomics research, financial analytics, real-time video processing, big data etc
 		2. I3 - For IOPS (High Speed Storage) - NoSQL DBs, Data Warehousing etc
