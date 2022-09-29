@@ -858,9 +858,72 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 		
 		
 		
-====================================================================================================================================================================
+ ** Licenssing Issues (6.9)
+ 	- Dedicated Host
+		- Any question that talks about special licensing requirements - the answer should be dedicated host
+		- Dedicated Host; is a physical server with instance capacity fully dedicate to you. 
+			    - Host allows you to use your existing 
+			    	per-socket, per-core, per-VM software license, including Windows Server, MSSQL, SUSE Linux Enterprise Server
+		
+** Spot Instances (6.10)
+	- what are EC2 spot instances
+		let you take advantage of unused EC2 capacity in the AWS Cloud. 
+		- spot price 
+			- Availabe at upto 90% discount compared to On-Demand EC2 Instance 
+			- How to get spot instance : 
+				-you have decide on your maximum spot price ,
+			        -spot instance will be provisioned for your as long as the price is below your max price
+				-if price goes up , you have 2 minutes to stoped or terminated (depnding on how u configure)
+				-price depends on capacity and region and avaliblity zone (AZ)
+				-you can get historic data for pricing
+		- spot blocks 
+			- you can use spot blocks to stop your instance from being terminated, even if price goes up
+			- you can set spot blocks for b/w 1 to 6 hours
+		- Use Cases 
+			-stateless, fault-tolerance or flexiable application 
+			-apps such as ; 
+			    image & media rendring, big data , containerized workload, CI/CD, high-performance computing (HPC), test and development workload
+			-you can not use it for 
+			    web-service, presistent workload, critical jobs, Databases (as this is require up and running all the time) 
+			-all and all you can use spot instance for apps that are quickly run and finishes the work. 
 	
-
+	- Terminating Spot instances 
+	 	when we create a spot instance ; we are basically creating a spot request 
+		  - spot request have two types 
+		  	- on-time 
+			    As soon as spot price dip under our max price - we will have instance(s)
+			    once spot price goes up our max price - that is it (instance going to stop | terminate)
+			- presistent 
+				if persistence - we have to set [valid from, valid untill]
+				it looks for the request if its open ; active or disabled 
+				  - if request is open and persitence : you can not just terminate your instances
+				      - *you have to cancel the spot request & then terminate the instance 
+				      
+	- What are spot fleets 
+		-collection of spot instances and (optionally On-Demand Instances)
+		-it sattempts to launch the # of spot instances and On-Demand instance to meet target capacity
+			 target capicity : you have to specified in spot fleet request
+		-*The rquest for spot instance is  fulfilled
+			if there is available capacity  AND max price u specified in request excceeds the current spot price
+		-the spot fleet also attempts to maintain its target capacity fleet if ur spot instances are interrupted. 
+		
+	- launch Pools 
+		-Spot fleet will try and match the target capacity with your price restraints
+		-meeting your capacity with in your budget
+		1. you can set up different launch pools.
+			based on by defining things like EC2 instances type, operating systen and AZ
+		2. you can have multiple pools 
+			fleet will chose the best way to implement depending on strategy you define
+		3. spot fleet will stop launching instance once you reach 
+			ur price threshold or capacity desire
+			
+	- Strategies
+		1. Capacity Optimized 
+		2. Diversified
+		3. LowestPrice
+		4. InstancePoolsToUseCount
+	
+	
 ** EBS 101
 	Amazon Elastic Block Storage (EBS) provides persistent block storage volumes for use with Amazon EC2 instances in the AWS cloud. 
 	Each Amazon EBS volume is automatically replicated within it's Availability Zone to protect you from component failure, offering high availability and durability.
@@ -1244,7 +1307,8 @@ Exam Tips:
 
 		3. Partitioned Placement Groups: When using partition placement groups, Amazon divides each group into logical segments called partitions. 
 		   Amazon EC2 ensures that each partition with a placement group has its own set of racks. 
-	     No two partitions within a placement group share the same racks, allowing you to isolate the impact of h/w failure within your application.
+	           No two partitions within a placement group share the same racks, allowing you to isolate the impact of h/w failure within your application.
+		   Basically it boils down to this ->Mulitple instances which you want own dedicate network resource and seprate power source.
 		   THINK MULTIPLE INSTANCES. 
 		   Use case: HDFS, HBase, Hadoop, Cassandra and Kafka
 
