@@ -805,7 +805,7 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 		     note: the above tasks / commands will run at boot time and increase the amount of time to instantiate/boot the instance. 
 		           but this will automate the installation.
 
-* Security Groups Exam Tips:
+** Security Groups Exam Tips:
 	1. All inbound traffic is blocked by default - so we enable some IP and ports using Security Groups.
 	2. All outbound traffic is allowed.
 	3. Security Groups are STATEFUL, when you create an inbound rule and an outbound rule is automatically created.v
@@ -816,6 +816,41 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 	8. Changes to Security Groups take effect immediately.
 	9. You can specify allows rule, but not deny rules.
 	
+	
+** EC2 MetaData and User Data
+	1. Data about your EC2 instance 
+		- include info such as private IP address, public IP address , hostname , security group etc.
+ 	2. Retriving Metadata 
+		- using curl command 
+			curl http://169.254.169.254/latest/meta-data/local-ipv4 or 
+			curl http://169.254.169.254/latest/meta-data/
+		- example : 
+			#!/bin/bash
+			yum update -y
+			yum install httpd -y
+			service httpd start 
+			cd /var/www/html
+			echo "<html><body><h1>My IP is" > index.html
+			curl http://169.254.169.254/latest/meta-data/public-ipv4 >> index.html 
+			echo "</h1></body></html>" >> index.html 
+	3. using ssh
+		- curl http://169.254.169.254/latest/meta-data [this will give me the list]
+		- curl http://169.254.169.254/latest/meta-data/public-ipv4    (public-ipv4 is taking from the list)
+		
+	4. Getting Instance User data 
+		- curl http://169.254.169.254/latest/user-data 
+
+
+* EC2 Metadata and User Data Exam Tips:
+	1. user data is simply bootstrap scripts
+	2. Metadata is data about your EC2 instances.
+	3. You can use bootstrap scripts (user data) to accessmetadata.
+		
+		
+		
+		
+		
+		
 ====================================================================================================================================================================
 	
 
