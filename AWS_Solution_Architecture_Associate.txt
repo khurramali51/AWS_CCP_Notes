@@ -847,7 +847,14 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 	3. You can use bootstrap scripts (user data) to accessmetadata.
 		
 		
-		
+** Networking with EC2
+	1. you can attach 3 different typeos of virutal networking cards to your EC2 instance
+		- ENI (Elastic Network interface)
+			- for basic, day to day networking									
+		- EN (Enhanced Networking)
+			- uses single root I/o virtualization (SR-IOV) to provide high performance 				
+		- EFA (Elastic Fabric Adapter)
+			ACcelerates High performance computing (HPC) and machine learning application
 		
 		
 		
