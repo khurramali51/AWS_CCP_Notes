@@ -954,10 +954,43 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 			- 500 IOPs per GB upto 64,000 IOPs
 			 
 	  Magnetic/HDD:
-		1. Throughput Optimised Hard Disk Drive (ST1) - Low cost HDD volume designed for frequently accessed, throughput-intensive workloads.
-		2. Cold Hard Disk Drive (SC1) - Lowest cost HDD volume designed for less frequently accessed workloads (File Servers)
+		1. Throughput Optimised Hard Disk Drive (ST1) 
+			- Low cost HDD volume designed for frequently accessed, throughput-intensive workloads.
+			- baseline throughput of 40 MB/s per TB
+			- Ability to burst up to 250 MB/s per TB
+			- Max througput of 500 MB/s per volume
+			- Big data, data warehouse, ETL and log processing
+			- cost-effictive way to store mountains of data; can not be boot volume
+			
+		2. Cold Hard Disk Drive (SC1) 
+			- Lowest cost HDD volume designed for less frequently accessed workloads (File Servers)
+			- A good choice for colder dta requiring fewer scans per day
+			- *Good for applications that need the lowest cost and performance is not a factor.
+				- static images, file server etc ; can not be a boot volume 
+				
 		3. Magnetic - Previous generation and some point will probably be phased out.
 	
+     * Difference b/w IOPs and Throughput 
+     	 1. IOPs : 
+	 	measure the # of write and read operations per seconds
+		important metric for quick transactions, low-latency apps, tracsactional workloads
+			- busy online store
+		the ability to action read and writes very quickly
+		Choose provisioned IOPs SSD (IO1 or IO2)
+	 2. Throughput :
+	   	measure the # of bits read or written per second (MB/s)
+		importan metric for large datasets, large I/o sized, complex queries
+		ability to deal with large datasets
+			 - big data, dataware house , etl 
+		Choose througput optimized HDD (st1)
+	 
+	 Note: if in exam scenario , they taking about : 
+	 	- big data, data warehouse , etl than choose HDD (st1) 
+		- anything based on quick transactional (like online store, banking etc) choose IOPs(IO1 or IO2) 
+		** - remember 
+			1. if you want IOPS more than 16000 choose IO1 or IO2 
+			
+		
 	- Compare EBS Types (Exam Tip: Important: API names are important for the exam)
 	https://aws.amazon.com/ebs/features/
 
