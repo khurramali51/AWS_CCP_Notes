@@ -923,8 +923,9 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 		3. LowestPrice
 		4. InstancePoolsToUseCount
 	
-	
+================================================================================================================================================================
 ** EBS 101
+================================================================================================================================================================
 	Amazon Elastic Block Storage (EBS) provides persistent block storage volumes for use with Amazon EC2 instances in the AWS cloud. 
 	Each Amazon EBS volume is automatically replicated within it's Availability Zone to protect you from component failure, offering high availability and durability.
  
@@ -994,30 +995,73 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 	- Compare EBS Types (Exam Tip: Important: API names are important for the exam)
 	https://aws.amazon.com/ebs/features/
 
+
 ** EBS Volumes & Snapshots - Lab (Exam Tips)
-	1. Important: Where-ever you have EC2 instance it's EBS volume will be in the same region.
-	2. Important: When we terminate EC2 instance, it removes EBS volumes automatically.
-	3. Volumes exist on EBS. Think of EBS as a virtual hard disk.
-	4. Snapshots exist on S3. Think of snapshots as a photograph of the disk.
-	5. Snapshots are point in time copies of Volumes.
-	6. Snapshots are incremental - this means that only the blocks that have changed since your last snapshot are moved to S3.
-	7. If this is your first snapshot, it may take some time to create.
-	8. To create a snapshot for Amazon EBS volumes that serve as a root devices, you should stop the instance before taking the snapshot.
-	9. However you can take a snap while the instance is running.
- 10. You can create AMI's from both Volumes and Snapshots.
- 11. You can change EBS volume sizes on the fly, including changing the size and storage type.
- 12. Volumes will be in the same Availability Zone as the EC2 instance.
- 13. To move an EC2 volume from one AZ to another, take a snapshot of it, create an AMI from the snapshot and then use the AMI to launch the EC2 instance in a new AZ.
- 14. To move an EC2 volume from one region to another, take a snapshot of it, create an AMI from the snapshot and then copy the AMI from one region to other. Then use the copied AMI to launch the new EC2 instance in the new region.
- 15. Virtualisation Type: PV or HVM, use Hardware-assisted virtualisation as it will give lot more different EC2 instance types.
-     Linux Amazon Machine Images use one of two types of virtualisation: paravirtual (PV) or hardware virtual machine (HVM). The main differences between PV and HVM AMIs are the way in which they boot and whether they can take advantage of special hardware extensions (CPU, network, and storage) for better performance.
 
-	   For the best performance, we recommend that you use current generation instance types and HVM AMIs when you launch your instances
+   - What are Volumes
+   	- Volumes exists on EBS 
+	- volumes are simply virtual hard disks. 
+		you need a minimum of 1 volume per EC2 instance - This is called " root device volume "
+   
+   - What are Snapshots?
+   	- Snapshots exists on S3 ; remember they do not exist of EBS  
+		- think of snapshots as a photograph of the virtual disk/volume
+	- Snapshots are point in time 
+		- when you take a snapshot, it is a point-in-time copy of a volume
+	- Snapshot are incremental 
+		- only the data have been changed since your last snashot are moved to s3 
+	- Importin tips 
+		1. consistent snapshots:  only capture data that has been written to your Amazon EBS volume, 
+		   which might exclude any data that has been locally cached by your app or OS.For a consistent 
+		   snapshot , it is recommended that you stop the instance and take a snap
+		2. ENcryptd Snapshots: if you take a snapshot of an encrypted EBS volume, the snapshot will be encrypted automatically
+		3. Sharing Snapshots: You can share snapshots, but only in the region in which they were created. 
+		   To share to other regions, you will need to copy them to the destination region first.
+	Exam Question: how to copy EC2 instance to another region 
+	     Answer :  you take the snapshot of ur EC2 instance , copy that snapshot to another region. 
+	     
+   - Location
+   	- your EBS volumes will always be in the same AZ as the EC2 
+	
+   - Resizing 
+   	- you can resize EBS volume on the fly; no need to stop or restart the instance
+		but, you need to extend the filesystem in the OS so the OS can see the resized volume.
+ 
+   - Volume Type 
+	- you can change volume types on the fly e.g gp2 to IO2 ; no need to restart or stop the instance
+	
+	
+*Things to remember
 
-	16. Snapshots of encrypted volumes are encrypted automatically.
-	17. Volumes restored from encrypted snapshots are encrypted automatically.
-	18. You can share snapshots, but only if they are unencrypted.
-	19. These snapshots can be shared with other AWS accounts or made public.
+1. Important: Where-ever you have EC2 instance it's EBS volume will be in the same region.
+2. Important: When we terminate EC2 instance, it removes EBS volumes automatically.
+3. Volumes exist on EBS. Think of EBS as a virtual hard disk.
+4. Snapshots exist on S3. Think of snapshots as a photograph of the disk.
+5. Snapshots are point in time copies of Volumes.
+6. Snapshots are incremental - this means that only the blocks that have changed since your last snapshot are moved to S3.
+7. If this is your first snapshot, it may take some time to create.
+8. To create a snapshot for Amazon EBS volumes that serve as a root devices, you should stop the instance before taking the snapshot.
+9. However you can take a snap while the instance is running.
+10. You can create AMI's from both Volumes and Snapshots.
+11. You can change EBS volume sizes on the fly, including changing the size and storage type.
+12. Volumes will be in the same Availability Zone as the EC2 instance.
+13. To move an EC2 volume from one AZ to another, take a snapshot of it, create an AMI from the snapshot and then use the AMI to launch the EC2 instance in a new AZ.
+14. To move an EC2 volume from one region to another, take a snapshot of it, create an AMI from the snapshot and then copy the AMI from one region to other. Then use 
+    the copied AMI to launch the new EC2 instance in the new region.
+15. Virtualisation Type: PV or HVM, use Hardware-assisted virtualisation as it will give lot more different EC2 instance types.
+    Linux Amazon Machine Images use one of two types of virtualisation: paravirtual (PV) or hardware virtual machine (HVM). The main differences between PV and HVM 
+    AMIs are the way in which they boot and whether they can take advantage of special hardware extensions (CPU, network, and storage) for better performance.
+
+    For the best performance, we recommend that you use current generation instance types and HVM AMIs when you launch your instances
+
+16. Snapshots of encrypted volumes are encrypted automatically.
+17. Volumes restored from encrypted snapshots are encrypted automatically.
+18. You can share snapshots, but only if they are unencrypted.
+19. These snapshots can be shared with other AWS accounts or made public.
+
+
+
+
 
 ** AMI Types (EBS vs. Instance Store) - Important for the exam
 	1. You can select your AMI based on:
