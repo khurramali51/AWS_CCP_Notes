@@ -1030,7 +1030,32 @@ it's locked down, it's not public and making objects public is not that easy. Yo
    - Volume Type 
 	- you can change volume types on the fly e.g gp2 to IO2 ; no need to restart or stop the instance
 	
+* Protecting EBS Volumes with Encryption
+   1. EBS Encryption 
+   	 - encrypting your volume using data using Industry-standard AES-256 algo
+	 - EBS Encryption uses 
+	 	AWS key managment system (AWS KMS) 
+		Customer Master keys (CMK)
+   2. What happend when you encrypt 
+   	- Data at rest is encrypted inside the volume
+	- All data in flight moving b/w the instances and the volume is encrypted
+	- All snapshots are encrypted 
+	- All volume created from the sanpshot are encrypted.
 	
+   3. Encryption Explored 
+   	- Transparently: encryption and decryption are handled transparently (u don't need to do anything)
+	- Latency: encryption has minimal impact on latency
+	- *Copying: copying an unencrypted snapshot allows encryption. 
+	- Snapshots: snapshots of encrypted volume are encrypted automatically
+	- Root Device Volumes: u can now encrypt root device volumes upon creation
+	
+   4. How to Encrypt Existing Volumes 
+   	- create a snapshot of the unencrypted root device volume
+	- create a copy of the snapshot and select the encrypt option
+	- create an AMI (Amazon Machine Image) from the encrypted snapshot
+	- Use that AMI to launch new encrypted instances
+
+
 *Things to remember
 
 1. Important: Where-ever you have EC2 instance it's EBS volume will be in the same region.
