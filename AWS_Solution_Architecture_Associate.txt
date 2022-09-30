@@ -931,8 +931,28 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 	- 5 different types of EBS Storage:
 	  SSD:
 		1. General purpose SSD (GP2) - balances prices and performance for a wide variety of workloads
+			- 3 IOPs per GiB, up to max of 16,000 IOPs per volume  (IOPs - input/output operations per second)
+			- gp2 volumes smaller than 1 TB can burst up to 3000 IOPS 
+			-* Good for boot volumes, or development and test applications that are not latency sesitive.
+		1a. General Puprose SSD (GP3) - they are for your boot device volumes (both gp2 and gp3), this is where you install you operating system (OS)
+			- Predictable 3000 IOPS baseline performance and 125 MiB/s regardless of volume size 
+			-* Ideal for applicatins that require high performance at a low cost
+				- e.g: MySQL, Cassandra, virtual desktops and Hadoop analytics.
+			- Customers looking for hight performance can sacle up to 16,000 IOPs and 1000 MiB/s for additional fees.
+			-* the top performance of gp3 is 4 times faster than max throughput of gp2 volumes
+		   (note: if you have to choose between gp2 and gp3 alwasy choose gp3 as its faster) 
+		   
 		2. Provisioned IOPS SSD (IO1) - higher-performance SSD volume for mission-critical low-latency or high throughput workloads.
-
+			- the high performance option and the most expensive 
+				- if use is for database or something ; straight away select IO1 
+			- Design for I/O intensive applications, large database, and latency-sensitive workloads
+		2. IO2  
+			- latest generation ; higher durability and more IOPs 
+			- IO2 is the same price as IO1
+			- gives 99.999% durability instead of 3 9's durability
+			- use for application , io-intensive apps, large database or apps that need high level of durability
+			- 500 IOPs per GB upto 64,000 IOPs
+			 
 	  Magnetic/HDD:
 		1. Throughput Optimised Hard Disk Drive (ST1) - Low cost HDD volume designed for frequently accessed, throughput-intensive workloads.
 		2. Cold Hard Disk Drive (SC1) - Lowest cost HDD volume designed for less frequently accessed workloads (File Servers)
