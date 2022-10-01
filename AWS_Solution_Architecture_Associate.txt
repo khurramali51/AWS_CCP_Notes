@@ -1056,6 +1056,46 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 	- Use that AMI to launch new encrypted instances
 
 
+* EBS Behaviors Reviewed (7.4)
+ 	** EC2 Hibernate:
+
+	We have learned so far we can stop and terminate EC2 instances. If we stop the instance, 
+	the data is kept on the disk (EBS) and will remain on the disk until the EC2 instance is started.
+	If the instance is terminated, then by default the root device volume will also be terminated.
+
+	When we start our EC2 instance, the following happens:
+		1. OS boots up
+		2. User data script is run (bootstrap scripts)
+		3. Applications start (can take some time)
+
+	EC2 Hibernate: When you hibernate an EC2 instance, the OS is told to perform hibernation (suspend-to-disk).
+	Hibernation saves the content from the instance memory (RAM) to your Amazon EBS root volume. We persist the instance's
+	Amazon EBS root volume and any attached Amazon EBS data volumes.
+	
+	When you start your instance out of Hibernation:
+		1. The Amazon EBS root volume is restored to its previous state
+		2. The RAM contents are reloaded
+		3. The processes that were previously running on the instance are resumed.
+		4. Previously attached data volumes are reattached and the instance retains its instance ID.
+
+	With EC2 Hibernate, the instance boots much faster. The OS does not need to reboot because the in-memory state (RAM) is preserved. 
+	This is useful for:
+		1. Long-running processes
+		2. Services that take time to initialise
+ 
+	Important: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html
+	
+	Exam Tips:
+		1. EC2 Hibernate preserves the in-memory RAM on persistent storage (EBS)
+		2. Much faster to boot up because you do not need to reload the OS
+		3. Instance RAM must be less than 150 GB
+		4. Instance families include C3, C4, C5, M3, M4, M5, R3, R4 and R5
+		5. Available for Windows, Amazon Linux 2 AMI, and Ubuntu
+		6. Instances can't be hibernated for more than 60 days.
+		7. Available for On-Demand instances and Reserved Instances.
+		8. To hibernate an instance, it must first be enabled for hibernation. To enable hibernation, you must do it while launching the instance.
+		   Important: You can't enable or disable hibernation for an instance after you launch it.
+			
 *Things to remember
 
 1. Important: Where-ever you have EC2 instance it's EBS volume will be in the same region.
@@ -1239,41 +1279,7 @@ Exam Tips:
 	3. You can block spot instances from terminating by using spot block
 	4. A Spot Fleet is a collection of spot instances and optionally on-demand instances
 		
-** EC2 Hibernate:
 
-	We have learned so far we can stop and terminate EC2 instances. If we stop the instance, the data is kept on the disk (EBS) and will remain on the disk until the EC2 instance is started.
-	If the instance is terminated, then by default the root device volume will also be terminated.
-
-	When we start our EC2 instance, the following happens:
-		1. OS boots up
-		2. User data script is run (bootstrap scripts)
-		3. Applications start (can take some time)
-
-	EC2 Hibernate: When you hibernate an EC2 instance, the OS is told to perform hibernation (suspend-to-disk). Hibernation saves the content from the instance memory (RAM) to your Amazon EBS root volume. We persist the instance's Amazon EBS root volume and any attached Amazon EBS data volumes.
-	
-	When you start your instance out of Hibernation:
-		1. The Amazon EBS root volume is restored to its previous state
-		2. The RAM contents are reloaded
-		3. The processes that were previously running on the instance are resumed.
-		4. Previously attached data volumes are reattached and the instance retains its instance ID.
-
-	With EC2 Hibernate, the instance boots much faster. The OS does not need to reboot because the in-memory state (RAM) is preserved. 
-	This is useful for:
-		1. Long-running processes
-		2. Services that take time to initialise
- 
-	Important: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html
-	
-	Exam Tips:
-		1. EC2 Hibernate preserves the in-memory RAM on persistent storage (EBS)
-		2. Much faster to boot up because you do not need to reload the OS
-		3. Instance RAM must be less than 150 GB
-		4. Instance families include C3, C4, C5, M3, M4, M5, R3, R4 and R5
-		5. Available for Windows, Amazon Linux 2 AMI, and Ubuntu
-		6. Instances can't be hibernated for more than 60 days.
-		7. Available for On-Demand instances and Reserved Instances.
-		8. To hibernate an instance, it must first be enabled for hibernation. To enable hibernation, you must do it while launching the instance.
-		   Important: You can't enable or disable hibernation for an instance after you launch it.
 
 ** CloudWatch 101
 
