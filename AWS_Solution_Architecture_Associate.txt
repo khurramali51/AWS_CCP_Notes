@@ -1095,7 +1095,118 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 		7. Available for On-Demand instances and Reserved Instances.
 		8. To hibernate an instance, it must first be enabled for hibernation. To enable hibernation, you must do it while launching the instance.
 		   Important: You can't enable or disable hibernation for an instance after you launch it.
-			
+
+
+**EFS  (7.5)
+
+ 1. Overview 
+ 	Amazon Elastic File System 
+		- EFS is a managed NFS (network file system) that can be mounted on many EC2 instances
+		- EFS works with EC2 instances across multi AZs
+		- EFS is highly available, scalable, but also more expensive (3x GP2) than EBS
+		- EFS is pay per use
+		- Use cases: content management, web service, data sharing, Wordpress website; jomla website
+		- Uses NFSv4.1 protocol
+		- We can use security groups to control access to EFS volumes
+		- EFS is only compatible with Linux based AMIs (not Windows).
+		- Encryption at rest using KMS
+		- File system scales automatically; no capacity planning required
+		- **  Shared storage accross multiple EC2 instance ;
+		      EC2 instance  connect/communicate to EFS using process/interface called Mount Target 
+ 2. EFS Performance 
+ 	- EFS Scale
+		-Thousands of concurrent NFS clients, 10 GB+ per second throughput
+		-It can grow to petabyte scale NFS automatically
+	- Performance mode (can be set at EFS creation time)
+		-General purpose (default): recommended for latency-sensitive use cases: web server, CMS, etc.
+		-Max I/O - higher latency, throughput, highly parallel, recommended for big data, media processing
+	- Storage tiers: lifecycle manage feature
+		-Standard: for frequently accessed files
+		-Infrequent access (EFS-IA): there is a cost to retrieve files, lower price per storage
+	- life cycle management
+		-Transition files from Standard to Standard-Infrequent Access.
+	- Througput mode
+		- Bursting : throughput scales with file system size 
+		- Provisiond: throughput fixed at specified amount
+		
+** Amazon FSx 
+
+
+
+
+
+
+
+
+
+
+** Amazon FSx for Windows and Amazon FSx for Lustre
+ 
+  1. EFS is for linux ; FSx is for windows 
+     its fully managed windows file system shared drive 
+     supports SMB protocol and Windows NTFS 
+     It have AD integeration, ACLs and user quotas 
+     built on top of SSD, it can scale upto 10s GB/s , million of IOPs and 100s PB of data
+     it can accessed from on-premise infrastructure 
+     it can be configured to be Multi-AZ (high availability)
+     Data is backed up daily to S3
+     - exam scenario: any thing related to sharepoint migration, Active Directory , shared file storage - immediately thing FSx
+
+	How is Windows FSx different to EFS
+	- Windows FSx:
+		1. A managed Windows Server that runs Windows Server Message Block (SMB)-based file services.
+		2. Designed for Windows and Windows applications.
+		3. Supports AD users, access control lists, groups and security policies, along with Distributed File System (DFS) namespaces and replication.
+
+	- EFS:
+		1. A managed NFS filer for EC2 instances based on Network File System (NFS) version 4.
+		2. One of the first network file sharing protocols native to Unix and Linux.
+
+  2. Amazon FSx for Lustre 
+  	-fully managed file system that is optimised for compute-intensive workloads, 
+	   such as high-performance computing, machine learning, media data processing workflows, and electronic design automation (EDA).
+       -** With Amazon FSx, you can launch and run a Lustre file system 
+                     that can process 
+		          massive data sets at up to hundreds of gigabytes per second of throughput,
+			  millions of IOPS and sub-millisecond latencies.
+       -*** Details ***-
+       	1.Lustre is a type of parallel distributed file system for large-scale computing
+	2.Lustre is derived from "Linux" and "cluster"
+	3.FSx for Lustre is used with machine learning and High Performance Computing (HPC), example: video processing, financial modelling, 
+          electronic design automation
+	4.Scales up to 100s GB/s, millions of IOPS, sub-ms latencies
+	5.It has seamless integration with S3
+		Can "read" S3 as a file system
+		Can write the output of the computations back to S3
+	6.It can be used with on-premise servers
+       
+       
+  3. How is Amazon FSx for Lustre different to EFS
+	- Lustre FSx:
+		1. Designed specifically for fast processing of workloads such as machine learning, high performance computing (HOC), 
+		   video processing, financial modelling and electronic design automation (EDA).
+		2. Lets you launch and run a file system that provides sub-millisecond access to your data and allows you to 
+		   read and write data at speeds of up to hundreds of gigabytes per second of throughput and millions of IOPS.
+
+	- EFS:
+		1. A managed NFS filer for EC2 instances based on Network File System (NFS) version 4.
+		2. One of the first network file sharing protocols native to Unix and Linux.
+	
+	*** Exam Tips: In the exam you'll be given different scenarios and asked to choose whether you should use an EFS, FSx for Windows or FSx for Lustre
+		1. EFS:
+			When you need distributed, highly resilient storage for Linux instances and Linux-based applications.
+
+		2. Amazon FSx for Windows:
+			When you need centralised storage for Windows-based applications such as Sharepoint, Microsoft SQL Server, 
+			Workspaces, IIS Web Server or any other native Microsoft Application.
+		
+		3. Amazon FSx for Lustre:
+			When you need high-speed, high-capacity distributed storage. This will be for applications that do High CPU, 
+			financial modelling etc. Remember that FSx for Lustre can store data directly to S3.
+
+
+
+
 *Things to remember
 
 1. Important: Where-ever you have EC2 instance it's EBS volume will be in the same region.
@@ -1123,6 +1234,7 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 17. Volumes restored from encrypted snapshots are encrypted automatically.
 18. You can share snapshots, but only if they are unencrypted.
 19. These snapshots can be shared with other AWS accounts or made public.
+20. if you have a scenario based question around hightly scalable shard storage using NFS, think EFS.
 
 
 
@@ -1385,43 +1497,6 @@ Exam Tips:
 		5. Data is stored across multiple AZ's within a region
 		6. Read After Write Consistency.
 	
-** Amazon FSx for Windows and Amazon FSx for Lustre
- 
-  1. Amazon Fsx for Windows File Server provides a fully managed native Microsoft Windows file system so you can easily move your Windows-based applications that require file storage to AWS. 
-     Amazon FSx is built on Windows Server.
-
-	How is Windows FSx different to EFS
-	- Windows FSx:
-		1. A managed Windows Server that runs Windows Server Message Block (SMB)-based file services.
-		2. Designed for Windows and Windows applications.
-		3. Supports AD users, access control lists, groups and security policies, along with Distributed File System (DFS) namespaces and replication.
-
-	- EFS:
-		1. A managed NFS filer for EC2 instances based on Network File System (NFS) version 4.
-		2. One of the first network file sharing protocols native to Unix and Linux.
-
-  2. Amazon FSx for Lustre is a fully managed file system that is optimised for compute-intensive workloads, such as high-performance computing, machine learning, media data processing workflows, and electronic design automation (EDA).
-
-     With Amazon FSx, you can launch and run a Lustre file system that can process massive data sets at up to hundreds of gigabytes per second of throughput, millions of IOPS and sub-millisecond latencies.
-
-	How is Amazon FSx for Lustre different to EFS
-	- Lustre FSx:
-		1. Designed specifically for fast processing of workloads such as machine learning, high performance computing (HOC), video processing, financial modelling and electronic design automation (EDA).
-		2. Lets you launch and run a file system that provides sub-millisecond access to your data and allows you to read and write data at speeds of up to hundreds of gigabytes per second of throughput and millions of IOPS.
-
-	- EFS:
-		1. A managed NFS filer for EC2 instances based on Network File System (NFS) version 4.
-		2. One of the first network file sharing protocols native to Unix and Linux.
-	
-	* Exam Tips: In the exam you'll be given different scenarios and asked to choose whether you should use an EFS, FSx for Windows or FSx for Lustre
-		1. EFS:
-			When you need distributed, highly resilient storage for Linux instances and Linux-based applications.
-
-		2. Amazon FSx for Windows:
-			When you need centralised storage for Windows-based applications such as Sharepoint, Microsoft SQL Server, Workspaces, IIS Web Server or any other native Microsoft Application.
-		
-		3. Amazon FSx for Lustre:
-			When you need high-speed, high-capacity distributed storage. This will be for applications that do High CPU, financial modelling etc. Remember that FSx for Lustre can store data directly to S3.
 
 ** EC2 Placement Groups 
 	Three types of Placement groups:
