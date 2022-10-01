@@ -1129,18 +1129,7 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 		- Bursting : throughput scales with file system size 
 		- Provisiond: throughput fixed at specified amount
 		
-** Amazon FSx 
-
-
-
-
-
-
-
-
-
-
-** Amazon FSx for Windows and Amazon FSx for Lustre
+** Amazon FSx for Windows and Amazon FSx for Lustre (7.6)
  
   1. EFS is for linux ; FSx is for windows 
      its fully managed windows file system shared drive 
@@ -1206,6 +1195,53 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 
 
 
+** AMI Types (EBS vs. Instance Store) - Important for the exam (7.7)
+    
+   What is an AMI : 
+        An Amazon MAchine Image (AMI) provides the information required to launch an instance. 
+	you must specify an AMI when you launch an instance. 
+	
+	
+	1. You can select your AMI based on:
+		1. Region (see Regions and AZ's)
+		2. Operating System.
+		3. Architecture (32-bit or 64-bit)
+		4. Launch Permissions
+		5. Storage for the Root Device (Root Device Volume)
+			 5.1 Instance Store (EPHEMERAL STORAGE)
+			 5.2 EBS Backed Volumes
+	
+	2. All AMI's are categorised as either backed by Amazon EBS or backed by Instance Store
+		2.1 For EBS Volumes: 
+		         - The root device for an instance launched from the Ami is an Amazon EBS volume created from an Amazon EBS snapshot
+			 - EBS - backed EC2 instance can be stopped. 
+			 - you will not lose the data on this instance if it is stopped.
+			 - you can also reboot an EBS volume and not lost your data 
+			 - by default the root device volume will be deleted on termination. 
+			    - however, you can tell AWS to keep the root device volume with EBS volume.
+			 - if you need consistent and permanent storage think EBS volumes.
+		2.2 For Instance Store Volumes: 
+			- The root device for an instance launched from the AMI 
+			      is an instance store volume created from a template stored in Amazon S3.
+			- sometimes called ephemeral storage
+			- Instance store volumes can not be stopped: 
+			- if underlaying host fails you will lose your data
+			- you can however , reboot the instance without losing your data.
+			- if you delete the instance , you will lose the instance store volume.
+
+   AMI Types (EBS vs. Instance Store) - Exam Tips
+	
+	1. Instance Store Volumes are sometimes called Ephemeral Storage (For some reason if the underlying hypervisor is stopped 
+	   then we are going to loose all our data)
+	2. You cannot see the volumes of Instance Store EC2 under volumes because its Instance Store.
+	3. Instance Store volumes cannot be stopped. If the underlying host fails, you will lose your data.
+	4. EBS backed instances can be stopped. You will not lose the data on this instance if it is stopped.
+	5. You can reboot both, you will not loose data.
+	6. By default, both ROOT volumes will be deleted on termination. However, with EBS volumes, you can tell AWS to keep the root device volume.
+	7.** An AMI is just a blueprint for an EC2 intance.
+
+
+
 
 *Things to remember
 
@@ -1240,34 +1276,14 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 
 
 
-** AMI Types (EBS vs. Instance Store) - Important for the exam
-	1. You can select your AMI based on:
-		1. Region (see Regions and AZ's)
-		2. Operating System.
-		3. Architecture (32-bit or 64-bit)
-		4. Launch Permissions
-		5. Storage for the Root Device (Root Device Volume)
-			 5.1 Instance Store (EPHEMERAL STORAGE)
-			 5.2 EBS Backed Volumes
-	
-	2. All AMI's are categorised as either backed by Amazon EBS or backed by Instance Store
-		2.1 For EBS Volumes: The root device for an instance launched from the Ami is an Amazon EBS volume created from an Amazon EBS snapshot
-		2.2 For Instance Store Volumes: The root device for an instance launched from the AMI is an instance store volume created from a template stored in Amazon S3.
 
-   AMI Types (EBS vs. Instance Store) - Exam Tips
-	
-	1. Instance Store Volumes are sometimes called Ephemeral Storage (For some reason if the underlying hypervisor is stopped then we are going to loose all our data)
-	2. You cannot see the volumes of Instance Store EC2 under volumes because its Instance Store.
-	3. Instance Store volumes cannot be stopped. If the underlying host fails, you will lose your data.
-	4. EBS backed instances can be stopped. You will not lose the data on this instance if it is stopped.
-	5. You can reboot both, you will not loose data.
-	6. By default, both ROOT volumes will be deleted on termination. However, with EBS volumes, you can tell AWS to keep the root device volume.
 
 ** ENI vs. ENA vs. EFA (Important for the exam - Scenario based questions)
 
 	1. ENI: Elastic Network Interface - essentially a virtual network card.
 		
-		1.1 An ENI is simply virtual network card on your EC2 instance, when you provision an EC2 instance, it's going to have a ENI attached to it automatically, and then you can add additional ones.
+		1.1 An ENI is simply virtual network card on your EC2 instance, when you provision an EC2 instance, it's going to have 
+		    a ENI attached to it automatically, and then you can add additional ones.
 		1.2 It basically allows a primary private IPv4 address, from the IPv4 address range of your VPC.
 		1.3 it also allows one or more secondary private IPv4 addresses from the IPv4 address range of your VPC.
 		1.4 With an ENI you get one elastic IP address, per private IPv4 address
@@ -1282,13 +1298,15 @@ it's locked down, it's not public and making objects public is not that easy. Yo
 			1. You might have multiple ENIs if you want to create a management network and you wanted to have, that separate to your production network.
 			2. You can also, have an additional ENI if you're using network and security appliances in your VPC.
 			3. It also allows you by having multiple ENIs you can create dual-homed instances with workloads or roles on distinct subnets.
-			4. You might have your production subnet, and then you might have your database subnet, and you might want to segregate that by using multiple ENIs, and it allows you to 			   create low budget high availability solutions.
+			4. You might have your production subnet, and then you might have your database subnet, and you might want to segregate 
+			    that by using multiple ENIs, and it allows you to create low budget high availability solutions.
 
-	2. EN: Enhanced Networking uses what's called single root I/O virtualisation or SR-IOV, to provide high performance networking capabilities to unsupported instance types.
+	2. EN: Enhanced Networking uses what's called single root I/O virtualisation or SR-IOV, to provide high performance networking 
+	       capabilities to unsupported instance types.
 	       ENA is a subset of Enhanced networking
-		
-		2.1 Is uses single root IO virtualisation, or SR-IOV, to provide high performance networking capabilities on supported instance types.
-		    SR-IOV is a method of device virtualisation, that provides higher IO performance and lower CPU utilisation, when compared to traditional network interfaces.
+	 2.1 Is uses single root IO virtualisation, or SR-IOV, to provide high performance networking capabilities on supported instance types.
+		    SR-IOV is a method of device virtualisation, that provides higher IO performance and lower CPU utilisation, when compared 
+		     to traditional network interfaces.
 		    So it's just a way of speeding up your network essentially.
 
 		2.2 Enhanced Networking provides higher bandwidth, higher packets per second performance consistently lower it into instance latencies, and there's no additional charge for using 			  Enhanced Networking, but your EC2 instance does have to support it. 
