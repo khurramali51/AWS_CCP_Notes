@@ -2572,11 +2572,24 @@ There is no charge for creating a placement group" and "The name of your placeme
 			- All subnets in a default VPC have a route out to the internet.
 			- Each EC2 instance has both a public and private IP address.
 			- If you delete a default VPC, you can recover it now. Try not to delete it.
+		- routing table:
+			- set of rules 
+				- these rules determine where the packets traaveling over IP Network
+        		- All IP- enabled devices uses routing tables such as:
+				- routers; switches etc 
+			- Details:
+				- A routing table contains the information necessary to forward a
+		 		  packet along the best path toward its destination.
+				-Each packet contains information about it 
+					- origin 
+			  		- destination
 		- VPC Peering
 			- Allows you to connect one VPC with another via a direct network route using private IP addresses.
 			- Instances behave as if they were on the same private network.
 			- You can peer VPC's with other AWS accounts as well as with other VPCs in the same account
-			- Peering is in a star configuration: ie 1 central VPC peers with 4 others. NO TRANSITIVE PEERING (Meaning: VPCA peered to VPCB and VPCC, so VPCB can't talk to VPCC through VPCA, instead a VPC peering need to be established between VPCB and VPCC for the communication)
+			- Peering is in a star configuration: ie 1 central VPC peers with 4 others. NO TRANSITIVE PEERING 
+			  (Meaning: VPCA peered to VPCB and VPCC, so VPCB can't talk to VPCC through VPCA, instead a VPC peering 
+			  need to be established between VPCB and VPCC for the communication)
 			- You can peer between Regions now.
 
 	** Exam Tips	   
@@ -2584,7 +2597,22 @@ There is no charge for creating a placement group" and "The name of your placeme
 			- Consists of IGW's (or Virtual Private Gateways), Route Tables, Network ACL's, Subnets and Security Groups
 			- You cannot have a Subnet stretched over multiple AZ's, However an AZ can have multiple subnets.
 			- Security Groups are Stateful, Network ACL's are Stateless.
-			- NO TRANSITIVE PEERING (Meaning: VPCA peered to VPCB and VPCC, so VPCB can't talk to VPCC through VPCA, instead a VPC peering need to be established between VPCB and VPCC for the communication) 
+			- block size has to be between /16 & /24
+			- Subnets are virtual firewalls     (can be public or private : public means : internet accessiable) 
+			- NO TRANSITIVE PEERING (Meaning: VPCA peered to VPCB and VPCC, so VPCB can't talk to VPCC through VPCA, 
+			  instead a VPC peering need to be established between VPCB and VPCC for the communication) 
+			- 1 subnet is always in 1 AZ
+			- 1 internet Gatwary (IGW) per VPC
+			- when we have our IGW 
+				- for public subnet we need a route out ; and we can get this using route table
+			- ** AWS reserved first 4 IP addressandlast IP address in each subnet block.
+					10.0.0.0 --> Networkaddress
+					10.0.0.1 --> forVPC Router
+					10.0.0.2 --> DNS Server
+					10.0.0.3 --> reserved for future use
+					10.0.0.255 --> network broadcast address 
+			
+			
 	
 	** Create Your Own Custom VPC: Part 1 - Demo
 		- We can only have 1 internet gateway attached one VPC.
