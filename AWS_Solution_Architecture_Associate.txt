@@ -2664,12 +2664,31 @@ There is no charge for creating a placement group" and "The name of your placeme
 				    resources in the other AZ lose internet access, create a NAT gateway in each AZ and configure your routing to ensure
 				    that resources use the NAT gateway in the same AZ.
 				  
+  ** Security Groups:
+  	- Security groups are virtual firewalls for EC2 instance
+	- they are stateful:
+		- meaning-> 
+			   :if u send a request from your instance through port 80
+			    the response traffic for that request is allowed as well 
+			    regardless of inbound security group rules.
+			   :responses to allowed inbout traffic are allowed to flow out, 
+			    regardless of outbound rules.
+			   
+     (Controlling subnet traffic with Network ACL) 			   
   ** Network Access Control Lists vs. Security Groups - Demo
-  		- Your VPC automatically comes with a default ACL, and by default it allows all inbound and outbound traffic.
-		  - You can create custom network ACL's. By default, each custom network ACL denies all inbound and outbound traffic.
-		  - Each subnet in your VPC must be associate with a network ACL, if you don't explicitly associate a subnet with a network ACL, 
-		    the subnet is automatically associated with the default network ACL.
-		  - Block IP addresses using network ACL's and not security groups.
+  		  - NACL - Its a first line of defense.
+  		  - A NACL is an optional layer  of security for ur VPC
+		  	- it acts as a firewall for controlling traffic IN/OUT of one or more subnets.
+		  - You might set up network ACL with rules similar to ur security group in order to add another layer of security your VPC.
+  		  - Default Network ACLs:
+		       	Your VPC automatically comes with a default ACL, and by default it allows all inbound and outbound traffic.
+		  - Customer Network ACLs:
+		  	You can create custom network ACL's. By default, each custom network ACL denies all inbound and outbound traffic.
+		  - Subnet Associations:
+		  	Each subnet in your VPC must be associate with a network ACL, if you don't explicitly associate a subnet with a network ACL, 
+			the subnet is automatically associated with the default network ACL.
+		  - Block IP Addresses:
+		  	Block IP addresses using network ACL's and not security groups.
 		  - You can associate a network ACL with multiple subnets; however a subnet can be associated with only one network ACL at a time.
 		    When you associate a network ACL with a subnet, the previous association is removed.
 		  - Network ACL's contain a numbered list of rules that is evaluated in order starting with the lowest numbered rule.
