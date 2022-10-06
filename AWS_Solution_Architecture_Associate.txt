@@ -2551,8 +2551,10 @@ There is no charge for creating a placement group" and "The name of your placeme
 
   ** VPC Overview
   		- Amazon VPC lets you provision a logically isolated section of the AWS Clous where you can launch AWS resources in a virtual network that you define.
-		  You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways
-		- Additionally, you can create a Hardware Virtual Private Network (VPN) connection between your corporate datacenter and your VPC and leverage the AWS cloud as extension of your corporate datacenter.
+		  You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and 
+		  configuration of route tables and network gateways
+		- Additionally, you can create a Hardware Virtual Private Network (VPN) connection between your corporate datacenter and your VPC and 
+		  leverage the AWS cloud as extension of your corporate datacenter.
 		- Network ACL's are Stateless, they facilitate allow and deny. When you open up a port inbound, it doesn't automatically open up a port on outbound.
 		- Security Group are Stateful, they only facilitate allow (no deny)
 		- Internet Assigned Number Authority actually has 3 different sets of IP Addresses that are reserver for private IP address range
@@ -2583,6 +2585,16 @@ There is no charge for creating a placement group" and "The name of your placeme
 				-Each packet contains information about it 
 					- origin 
 			  		- destination
+			 - Routes allows are subnets to talk to each other 
+			 	- explicit subnet associations 
+				-***** subnets without explicit associations 
+				     - subnets have not been explicityly associated with any route tables and therefore associate to main route table.
+				       so, when we create a subnet it connects to our main route table.
+				       issue: if we create a (route out to the internet) via are main route table; the issue will be that 
+				       every time we create a new subnet it is by default associated with our main route table - which means if we have 
+				       our main route table having a route out to the internet,everytime we create a new subnet, that subnet is going
+				       to be public.
+			 -
 		- VPC Peering
 			- Allows you to connect one VPC with another via a direct network route using private IP addresses.
 			- Instances behave as if they were on the same private network.
