@@ -2643,25 +2643,32 @@ There is no charge for creating a placement group" and "The name of your placeme
 				  - When creating a NAT instance, Disable Source/Destination Check on the instance.
 				  - NAT instances must be in a public subnet
 				  - There must be a route out of the private subnet to the NAT instance in order for this to work.
-				  - The amount of traffic that NAT instances can support depends on the instance size. If you are bottlenecking, increase the instance size.
-				  - You can create high availability using Autoscaling Groups, multiple subnets in different AZ's and a script to automate a failover but it is tedious
+				  - The amount of traffic that NAT instances can support depends on the instance size. If you are bottlenecking, 
+				    increase the instance size.
+				  - You can create high availability using Autoscaling Groups, multiple subnets in different AZ's and a
+				    script to automate a failover but it is tedious
 				  - NAT instances are behind a security group.
 		
 		NAT Gateway Exam Tips
 				  - Redundant inside the AZ
 				  - Preferred by the enterprise
 				  - Starts at 5Gbps and scales currently to 45Gbps
-				  - No need to patch
-				  - Not associated with Security Groups
+				  - No need to patch - (amazon handles that)
+				  - Not associated with Security Groups - (so you dont have to open on ur security group for ur nat gateway)
 				  - Automatically assigned a public ip address
 				  - Remember to update your route tables.
+				  - Nat gateway have a private IP address and also elastic IP adress 
+				  	elastic Ip address : automatically assigned my amazon (you have no control)
 				  - No need to disable Source/Destination Checks
-				  - If you have resources in multiple AZ's and they share one NAT gateway, in the event that the NAT gateway's AZ is down, resources in the other AZ lose internet access, create a NAT gateway in each AZ and configure your routing to ensure that resources use the NAT gateway in the same AZ.
+				  - If you have resources in multiple AZ's and they share one NAT gateway, in the event that the NAT gateway's AZ is down, 
+				    resources in the other AZ lose internet access, create a NAT gateway in each AZ and configure your routing to ensure
+				    that resources use the NAT gateway in the same AZ.
 				  
   ** Network Access Control Lists vs. Security Groups - Demo
   		- Your VPC automatically comes with a default ACL, and by default it allows all inbound and outbound traffic.
 		  - You can create custom network ACL's. By default, each custom network ACL denies all inbound and outbound traffic.
-		  - Each subnet in your VPC must be associate with a network ACL, if you don't explicitly associate a subnet with a network ACL, the subnet is automatically associated with the default network ACL.
+		  - Each subnet in your VPC must be associate with a network ACL, if you don't explicitly associate a subnet with a network ACL, 
+		    the subnet is automatically associated with the default network ACL.
 		  - Block IP addresses using network ACL's and not security groups.
 		  - You can associate a network ACL with multiple subnets; however a subnet can be associated with only one network ACL at a time.
 		    When you associate a network ACL with a subnet, the previous association is removed.
@@ -2674,7 +2681,8 @@ There is no charge for creating a placement group" and "The name of your placeme
 		  
   ** VPC Flow Logs - Demo
   		  - VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC.
-		    Flow log data is stored using Amazon CloudWatch Logs/S3. After you've created a flow log, you can view and retrieve its data in Amazon CloudWatch Logs/S3.
+		    Flow log data is stored using Amazon CloudWatch Logs/S3. After you've created a flow log, you can view and retrieve its data 
+		    in Amazon CloudWatch Logs/S3.
 		  - Flow Logs can be created at 3 levels
 		  	1. VPC
 			  2. Subnet Level
