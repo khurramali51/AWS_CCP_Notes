@@ -2595,15 +2595,7 @@ There is no charge for creating a placement group" and "The name of your placeme
 				       our main route table having a route out to the internet,everytime we create a new subnet, that subnet is going
 				       to be public.
 			 -
-		- VPC Peering
-			- Allows you to connect one VPC with another via a direct network route using private IP addresses.
-			- Instances behave as if they were on the same private network.
-			- You can peer VPC's with other AWS accounts as well as with other VPCs in the same account
-			- Peering is in a star configuration: ie 1 central VPC peers with 4 others. NO TRANSITIVE PEERING 
-			  (Meaning: VPCA peered to VPCB and VPCC, so VPCB can't talk to VPCC through VPCA, instead a VPC peering 
-			  need to be established between VPCB and VPCC for the communication)
-			- You can peer between Regions now.
-
+		
 	** Exam Tips	   
 			- Think of a VPC as a logical datacenter in AWS
 			- Consists of IGW's (or Virtual Private Gateways), Route Tables, Network ACL's, Subnets and Security Groups
@@ -2790,23 +2782,53 @@ There is no charge for creating a placement group" and "The name of your placeme
 				- You can control weighting to individual end points using weights.
 		
 	** VPC Endpoints (Exam Tips)
-		- A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC endpoint services powered by private link without requiring an internet gateway and Nat device, a VPN connection, or an AWS Direct Connect connection. 
-		
-		Instances in your VPC do not require public IP addresses to communicate with resources in the service. So traffic between your VPC and other services does not leave the
-	Amazon network.
-	
-	Endpoints are virtual devices, and they are horizontally scaled, redundant, and highly available VPC components that allow communication between instances in your VPC and services without imposing availability, risk, or bandwidth constraints on your network traffic.
+		- A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC endpoint services 
+		  powered by private link without requiring an internet gateway and Nat device, a VPN connection, 
+		  or an AWS Direct Connect connection. 
+		- Instances in your VPC do not require public IP addresses to communicate with resources in the 
+		  service. So traffic between your VPC and other services does not leave the
+	          Amazon network.
+	        - Endpoints are virtual devices, and they are horizontally scaled, redundant, and highly available VPC 
+		  components that allow communication between instances in your VPC and services without imposing availability, 
+		  risk, or bandwidth constraints on your network traffic.
 	
 		- Two types of VPC endpoints.
-			1. Interface Endpoints
+			1. Interface Endpoints:
+			   An interface endpoint is an Elastic Network Interface with a 
+			   private IP Address that serves as an entrypoint for traffic
+			   headed to a supported serive. 
+			   They support a large # of AWS Services.
 			2. Gateway Endpoints
-		
+			   Similar to NAT gateway, a gateway endpoint is a Virtual device 
+			   you provision. 
+			   It supports connection to S3 and DynamoDB.
 		Exam Tips:
-			  - An Interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported service.
-			    Many services such as Amazon API Gateway, AWS Cloud Watch, Amazon CloudFormation..etc are supported and many more will be added.
+			  - When you want to connect to AWS service with out leaving the Amazon internal network.
+			  - An Interface endpoint is an elastic network interface with a private IP address that serves as an entry point 
+			    for traffic destined to a supported service.
+			    Many services such as Amazon API Gateway, AWS Cloud Watch, Amazon CloudFormation..etc are 
+			    supported and many more will be added.
 			  - Currently Gateway Endpoints Support	
 			  	1. Amazon S3
-				  2. Amazon DynamoDB
+				2. Amazon DynamoDB
+
+	** Multiple VPC
+	Sometime you may need to have several VPC for different enviornments, 
+	e.g : 
+	    Production 		Content		Intranet 
+	     Web VPC		  VPC        	  VPC	
+	
+	and it may be necessary to connect these VPC to each other.
+	This is where VPC Peering comes in.
+	
+	- VPC Peering
+			- Allows you to connect one VPC with another via a direct network route using private IP addresses.
+			- Instances behave as if they were on the same private network.
+			- You can peer VPC's with other AWS accounts as well as with other VPCs in the same account
+			- Peering is in a star configuration: ie 1 central VPC peers with 4 others. NO TRANSITIVE PEERING 
+			  (Meaning: VPCA peered to VPCB and VPCC, so VPCB can't talk to VPCC through VPCA, instead a VPC peering 
+			  need to be established between VPCB and VPCC for the communication)
+			- You can peer between Regions now.
 
 	** VPC Private Link
 		- Sharing applications across VPC's - To open our applications up to other VPC's, we can either
