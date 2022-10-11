@@ -2569,13 +2569,20 @@ There is no charge for creating a placement group" and "The name of your placeme
 		  (ie the location from which DNS queries originate).
 		  For Example: You might want all queries from Europe to be routed to a fleet of EC2 instances 
 		  that are specifically configured for European customers. These servers may have the local language of 
-		  European customers and all prices are displayed in Euros.
+		  European customers and all prices are displayed in Euros (Localization).
 		  
   ** Route 53 Geoproximity Routing Policy - LAB (beyond the scope of SAA exam and SAP exam)
-  		- Geoproximity Routing lets Amazon Route 53 route traffic to your resources based on the geographic location of 
+  		- YOu can use Route53 traffic flow to build a routing system that uses a combination of:
+			-geographic location
+			-latency
+			-and availability to route traffic
+		  from your users to your cloud or on-premises endpints.
+		- Its only available when we use / choose traffic flow (i.e when u create a traffic flow).
+		- Geoproximity Routing lets Amazon Route 53 route traffic to your resources based on the geographic location of 
 		  your users and your resources. You can also optionally choose to route more traffic or less to a given resource by 
 		  specifying a value, known as a bias. A bias expands or shrinks the size of the geographic region 
 		  from which traffic is routed to a resource.
+		- bias is like when I mentiond that most of my users are from USA.
 		- To use Geoproximity Routing, you must use Route 53 traffic flow.		  
 		  
   ** Route 53 Multivalue Answer Routing Policy - LAB
