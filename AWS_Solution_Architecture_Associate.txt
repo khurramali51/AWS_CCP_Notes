@@ -2416,20 +2416,95 @@ There is no charge for creating a placement group" and "The name of your placeme
 ==========================================================================================================================================================================================
 
   ** Route53 Exam Tips
-	
+	        - TLD : Top level Domain 
+		  e.g: com;.org;.gov etc 
+		- Top-level domain names are controlled by Internet Assigned Numbers Authority (IANA)
+		- Domain name must be unique, there needs to be a way to roganize this all so that domain name aren't duplicated
+		  	- this is where domain registrars come in.
+			- Registrar is an authorty that can assign domain names directly under one or more top-level domains.
+			- These domains are ergistered with InterNIC, a service of ICANN, which enforces uniqueness of domain name 
+			  across the internet.
+			- Each domain name is registered in a central database name as WHOIS database. 
+			- popular domain domain registra are e.g: godaddy; AWS; Hoover etc.
 		- ELB's do not have a pre-defined IPv4 addresses, you resolve them using a DNS name 
 		- Understand the difference between an Alias Record and a CNAME.
 		- Given the choice, always choose an Alias Record over a CNAME.
 		- Common DNS Types
-			- SOA Records
+			- SOA Records 
+				- Start of Authority
+				- name of the server that suppleid the data for the zone
+				- Admin of the zone
+				- current version of the data file
+				- The default number of seconds for the time-to-live file on resource record
 			- NS Records
+				- Name server record
+				- NS records are used by top level domain servers to direct traffic to the contant
+				  DNS Server that contains the autoritative DNS records.
+				- e.g:
+				  hellocloudguru.com    --> 	.com    --> 	NS Records	--> SOA
+				  			  	 TLD 
+			             hellocloudguru.com        172800          ns.awsdns.com
 			- A Records
+				- An A (or address) record is the fundamental type of DNS record.
+				- The A recod is use by a computer to transalate the name of the domain of IP Add.
 			- CNAMES
+				- CNAME (canonical name)
+				- can be used to resolve one domain name ot another 
+					meaing : Points a domain name to any another domain name 
+				 	(example: app.mydomain.com => other.domain.com)
+				        explanation: u may have  mobile wesite with the domain name 
+					http://m.acloud.guru ; u may also want the name 
+					http://mobile.acloud.guru to resolve tho this same address
+				- CNAME records work only for non root domains! (example of a non-root domain: something.rootdomain.com
+			- Alias Records
+				- Point a hostname to an AWS resource (app.mydomain.com => something.amazonaws.com)
+				          (map one DNS name to another target DNS name)
+				- Alias records work for both root and non-root domain
+				- points hostname to an AWS Resource like
+				   ALB, API Gateway, CloudFront, S3 Bucket, Global Accelerator, 
+				   Elastic Beanstalk, VPC interface endpoint etc. 
+				- Works with both root-domain and subdomains e.g. mydomain.com. 
+				- AAAA is used for IPv6 addresses.
+				- They are free of charge
+				- They can do health checks
+			 -**  Difference b/w CNAME vs A Record (Alias Records)
+			 	- CNAME: can not be usef of naked domin names (zone apex record) 
+				  e.g: u can n't have CNAME for http://acloudguru.com
+				  u need to have it for something like http://m.acloudguru.com
+				- A Record: can be use for a naked domain name / zone apex record
 			- MX Records
 			- PTR Records (Reverse of A Record)
 			- You can buy domain names directly with AWS.
 			- It can take up to 3 days to register depending on the circumstances.	
-				
+  ** What is TTL
+  	- Time-to-live:
+		the lenght that DNS record is cached on either the 
+			- resolving server 
+			or 
+			- user' own local PC 
+		is equal to the value of the TTL in second. 
+	- The lower the time to live, the faster changes to DNS records take propagate througout the internet.
+	- TTL a is way for web browser adn clients to cache the response of the DNS query
+	- Reason for caching is not to overload the DNS
+	- The client will cache the DNS response for the duration of the TTL value (duration value is seconds)
+	- High TTL (24 hours):
+		Less traffic for DNS
+		Possibility of outdated records
+	- Low TTL (60 seconds):
+		More traffic on DNS
+		DNS records wont be outdated for longer periods which makes changing DNS records easier
+	- TTL is mandatory for each DNS record!
+ 
+  ** Exam Tips
+  - ELBs do not have pre-defined IPv4 addresses, you resolve them using a DNS name.
+		- Understand the difference between an Alias Record a CNAME.
+		- Given the choice, always choose an Alias Record over a CNAME.
+		  Exam Question: You need to map your naked domain name or your zone apex record to an S3 bucket, 
+		                 what should you be using a CNAME or an Alias record?
+		  Answer: Alias record.
+	
+	
+	
   ** Route 53 Routing Policies
   	
 		The following Routing Policies are available with Route 53
@@ -2479,7 +2554,7 @@ There is no charge for creating a placement group" and "The name of your placeme
 		- This is similar to simple routing however it allows you to put health checks on each record set.
 		
   ** DNS Summary/Route 53 Exam Tips:
-  	- ELBs do not have pre-defined IPv4 addresses, you resolve them using a DNS name.
+  	        - ELBs do not have pre-defined IPv4 addresses, you resolve them using a DNS name.
 		- Understand the difference between an Alias Record a CNAME.
 		- Given the choice, always choose an Alias Record over a CNAME.
 		  Exam Question: You need to map your naked domain name or your zone apex record to an S3 bucket, what should you be using a CNAME or an Alias record?
