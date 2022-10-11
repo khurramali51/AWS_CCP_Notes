@@ -2531,35 +2531,58 @@ There is no charge for creating a placement group" and "The name of your placeme
 			
   ** Route 53 Weighted Routing Policy - LAB
   		- Allows you to split your traffic based on different weights assigned.
-		  	For Example: you can set 10% of your traffic to go to US-EAST-1 and 90% to EU-WEST-1.
+		  For Example: you can set 10% of your traffic to go to US-EAST-1 and 90% to EU-WEST-1.
 		 
 		Health Checks
 			 - You can set health checks on individual record sets.
+			   on individual EC2 instances or individual Load Balancer; 
+			   you can also set on individual records set such as weighting
+			   so, if we set weight A at 10% and weight B at 90% 
+			   weight A : us-east-1a
+			   weight B : us-west-1a 
+			   and for some reason us-east-1a is down for some reason ; it fails the health check &
+			   it'll sends 100% traffic to us-west-1a.
+			   f.y.i : endpoint is basically an IP Address
 			 - If a recordset fails a health check it will be removed from Route53 until it passes the health check.
 			 - You can also set SNS notifications to alert you if a health check is failed.
 		  
   ** Route 53 Latency-Based Routing Policy - LAB
-  		- Allows you to route your traffic based on the lowest network latency for your end user (ie which region will give them the fastest response time)
-			- To use latency-based routing, you create a latency resource record set for the Amazon EC2 (or ELB) resource in each region that hosts your website.
-		  	When Amazon Route 53 receives a query for your site, it selects the latency resource record set for the region that gives the user the lowest latency.
-				Route 53 then responds with the value associated with that resource record set.
+  		- Allows you to route your traffic based on the lowest network latency for your end user 
+		  (ie which region will give them the fastest response time)
+		- To use latency-based routing, you create a latency resource record set for the Amazon EC2 (or ELB) 
+		  resource in each region that hosts your website.
+		  When Amazon Route 53 receives a query for your site, it selects the latency resource record set for 
+		  the region that gives the user the lowest 
+		  latency.
+		  Route 53 then responds with the value associated with that resource record set.
 		  
   ** Route 53 Failover Routing Policy - LAB
-  		- Failover Routing policies are used when you want to create an active/passive set-up. For Example: you may want your primary site to be in EU-WEST-2 and your secondary DR site in 				AP-SOUTHEAST-2
-			- Route 53 will monitor the health of your primary site using a health check.
-			- A health check monitors the health of your end points.
+  		- Failover Routing policies are used when you want to create an active/passive set-up. 
+		  For Example: you may want your 
+			(active)  primary site to be in --> EU-WEST-2 and 
+			(Passive) secondary DR site in  --> AP-SOUTHEAST-2
+		- Route 53 will monitor the health of your primary site using a health check.
+		- A health check monitors the health of your end points.
 
   ** Route 53 Geo-Location Routing Policy - LAB
-  		- Geo-Location Routing Policy lets you choose where your traffic will be sent based on the geographic location of your users (ie the location from which DNS queries originate).
-		  For Example: You might want all queries from Europe to be routed to a fleet of EC2 instances that are specifically configured for European customers. These servers may have the local language of European customers and all prices are displayed in Euros.
+  		- Geo-Location Routing Policy lets you choose where your traffic will be sent based on the geographic location of your users 
+		  (ie the location from which DNS queries originate).
+		  For Example: You might want all queries from Europe to be routed to a fleet of EC2 instances 
+		  that are specifically configured for European customers. These servers may have the local language of 
+		  European customers and all prices are displayed in Euros.
 		  
   ** Route 53 Geoproximity Routing Policy - LAB (beyond the scope of SAA exam and SAP exam)
-  		- Geoproximity Routing lets Amazon Route 53 route traffic to your resources based on the geographic location of your users and your resources. You can also optionally choose to route more traffic or less to a given resource by specifying a value, known as a bias. A bias expands or shrinks the size of the geographic region from which traffic is routed to a resource.
+  		- Geoproximity Routing lets Amazon Route 53 route traffic to your resources based on the geographic location of 
+		  your users and your resources. You can also optionally choose to route more traffic or less to a given resource by 
+		  specifying a value, known as a bias. A bias expands or shrinks the size of the geographic region 
+		  from which traffic is routed to a resource.
 		- To use Geoproximity Routing, you must use Route 53 traffic flow.		  
 		  
   ** Route 53 Multivalue Answer Routing Policy - LAB
-        - Multivalue Answer Routing lets you configure Amazon Route 53 to return multiple values, such as IP addresses for your web servers, in response to DNS queries.
-		  You can specify multiple value for almost any record, but multivalue answer routing also lets you check the health of each resource, so Route 53 returns only values from healthy resources.
+        	- Multivalue Answer Routing lets you configure Amazon Route 53 to return multiple values, s
+		  such as IP addresses for your web servers, in response to DNS queries.
+		  You can specify multiple value for almost any record, but multivalue answer routing also 
+		  lets you check the health of each resource, so Route 53 returns only values from healthy resources.
 		- This is similar to simple routing however it allows you to put health checks on each record set.
 		
   ** DNS Summary/Route 53 Exam Tips:
@@ -2586,47 +2609,81 @@ There is no charge for creating a placement group" and "The name of your placeme
 		- You can set health checks on individual record sets.
 		- If a recordset fails a health check it will be removed from Route53 until it passes the health check.	
 		- You can set SNS notification to alert you if a health check is failed.
-		- Alias Records have special functions that are not present in other DNS servers. Their main function is to provide special functionality and integration into AWS services. 		  Unlike CNAME records, they can also be used at the Zone Apex, where CNAME records cannot. Alias Records can also point to AWS Resources that are hosted in other accounts by manually entering the ARN
+		- Alias Records have special functions that are not present in other DNS servers. 
+		  Their main function is to provide special functionality and integration into AWS services. 		 
+		  Unlike CNAME records, they can also be used at the Zone Apex, where CNAME records cannot. 
+		  Alias Records can also point to AWS Resources that are hosted in other accounts by manually entering the ARN
 
-		- Important
-			The DNS protocol does not allow you to create a CNAME record for the top node of a DNS namespace, also known as the zone apex. For example, if you register the DNS name 			example.com, the zone apex is example.com. You cannot create a CNAME record for example.com, but you can create CNAME records for www.example.com, newproduct.example.com, and so on.
+		-** Important
+			- The DNS protocol does not allow you to create a CNAME record for the top node of a DNS namespace, 
+			  also known as the zone apex. For example, if you register the DNS name 
+			  example.com, the zone apex is example.com. You cannot create a CNAME record for example.com,
+			  but you can create CNAME records for www.example.com, newproduct.example.com, and so on.
 
-			In addition, if you create a CNAME record for a subdomain, you cannot create any other records for that subdomain. For example, if you create a CNAME for www.example.com, you 			cannot create any other records for which the value of the Name field is www.example.com.
+			- In addition, if you create a CNAME record for a subdomain, you cannot create any other 
+			  records for that subdomain. For example, if you create a CNAME for www.example.com, you 
+			  cannot create any other records for which the value of the Name field is www.example.com.
 		
-		- You have an enterprise solution that operates Active-Active with facilities in Regions US-West and India. Due to growth in the Asian market you have been directed by the CTO to ensure that only traffic in Asia (between Turkey and Japan) is directed to the India Region. Which of these will deliver that result?
-		Answers:
-		Route 53 - Geolocation routing policy
-		Route 53 - Geoproximity routing policy
+			- You have an enterprise solution that operates Active-Active with facilities in Regions US-West and India. 
+			  Due to growth in the Asian market you have been directed by the CTO to ensure that only traffic in
+			  Asia (between Turkey and Japan) is directed to the India Region. Which of these will deliver that result?
+			  Answers:
+				Route 53 - Geolocation routing policy
+				Route 53 - Geoproximity routing policy
 		
-		The instruction from the CTO is clear that that the division is based on geography. Latency based routing will approximate geographic balance only when all routes and traffic evenly supported which is rarely the case due to infrastructure and day night variations. You cannot combine blacklisting and whitelisting in CloudFront. Weighted routing is randomized and will not respect Geo boundaries. Geolocation is based on national boundaries and will meet the needs well. Geoproximity is based on Latitude & Longitude and will also provide a good approximation with potentially less configuration.
+			- The instruction from the CTO is clear that that the division is based on geography. 
+			  Latency based routing will approximate geographic balance only when all routes and traffic 
+			  evenly supported which is rarely the case due to infrastructure and day night variations. 
+			  You cannot combine blacklisting and whitelisting in CloudFront. Weighted routing is randomized 
+			  and will not respect Geo boundaries. Geolocation is based on national boundaries and will meet the needs well.
+			  Geoproximity is based on Latitude & Longitude and will also provide a good approximation with potentially less configuration.
 		
-		- You have created a new subdomain for your popular website, and you need this subdomain to point to an Elastic Load Balancer using Route53. Which DNS record set type (or DNS extension type) could you create? (Choose 2).
-		Answers:
-		CNAME
-		Alias
-		Incorrect ones
-		MX, AAAA, A
+			- You have created a new subdomain for your popular website, and you need this subdomain to 
+			  point to an Elastic Load Balancer using Route53. Which DNS record set type (or DNS extension type) 
+			  could you create? (Choose 2).
+			  Answers:
+					CNAME
+					Alias
+					Incorrect ones
+					MX, AAAA, A
 		
-		CNAME maps to the host name
-		An alias could be created for the ELB. Alias records provide a Route 53–specific extension to DNS functionality
+			- CNAME maps to the host name
+			  An alias could be created for the ELB. Alias records provide a Route 53–specific extension to DNS functionality
 		
-		- Your company hosts 10 web servers all serving the same web content in AWS. They want Route 53 to serve traffic to random web servers. Which routing policy will meet this requirement, and provide the best resiliency?
+			- Your company hosts 10 web servers all serving the same web content in AWS. 
+			  They want Route 53 to serve traffic to random web servers. Which routing policy will meet this requirement, 
+			  and provide the best resiliency?
+		          Answer: Multivalue Routing
 		
-		Answer: Multivalue Routing
+			- The R53 Simple policy will provide a list of multiple IP addresses in random order. 
+			   However it is less feature rich that the Multivalue Routing policy which is why AWS released the newer solution.
+			     https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html
 		
-		The R53 Simple policy will provide a list of multiple IP addresses in random order. However it is less feature rich that the Multivalue Routing policy which is why AWS released the newer solution.
-		https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html
-		
-		Round Robin would be the traditional solution to this problem. However, a) it is not offered and as answer, and b) R53 Multivalue offers a smarter service. R53 Multivalue lets you responds to DNS queries with up to eight IP address of 'healthy' targets. Plus it will give a different set of 8 to different DNS resolvers. The choice of which to use is left to the requesting service effectively creating a form or randomisation. The R53 Simple policy will provide a list of multiple instance, but Multivalue is the AWS preferred option for this type of service. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-simple-configs.html
+			Round Robin would be the traditional solution to this problem. 
+			However, a) it is not offered and as answer, and b) R53 Multivalue offers a smarter service. 
+			R53 Multivalue lets you responds to DNS queries with up to eight IP address of 'healthy' targets. 
+			Plus it will give a different set of 8 to different DNS resolvers. The choice of which to use is left 
+			to the requesting service effectively creating a form or randomisation. The R53 Simple policy will provide 
+			a list of multiple instance, but Multivalue is the AWS preferred option for this type of service. 
+			https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html https://docs.aws.amazon.com/
+			Route53/latest/DeveloperGuide/dns-failover-simple-configs.html
 
-		- Which of the following Route 53 policies allow you to route data to a second resource if the first is unhealthy, and route data to resources that have better performance?
-		Answers: Failover Routing and Latency-based Routing
-		Incorrect: Geolocation Routing and Latency-based Routing, Geoproximity Routing and Geolocation Routing, Multivalue Routing and Simple Routing
+			- Which of the following Route 53 policies allow you to route data to a second resource if the first is unhealthy, 
+		  	  and route data to resources that have better performance?
+			  Answers: Failover Routing and Latency-based Routing
+		I	  Incorrect: Geolocation Routing and Latency-based Routing, Geoproximity Routing and Geolocation Routing,
+		          Multivalue Routing and Simple Routing
 		
-		Failover Routing and Latency-based Routing are the only two correct options, as they consider routing data based on whether the resource is healthy or whether one set of resources is more performant than another. Any answer containing location based routing (Geoproximity and Geolocation) cannot be correct in this case, as these types only consider where the client or resources are located before routing the data. They do not take into account whether a resource is online or slow. Simple Routing can also be discounted as it does not take into account the state of the resources.
+			- Failover Routing and Latency-based Routing are the only two correct options, as they consider routing data based 
+			  on whether the resource is healthy or whether one set of resources is more performant than another. 
+			  Any answer containing location based routing (Geoproximity and Geolocation) cannot be correct in this case,
+			  as these types only consider where the client or resources are located before routing the data. They do not 
+			  take into account whether a resource is online or slow. Simple Routing can also be discounted as it does not take into account the state of 
+			  the resources.
 
-		- True or False: There is a limit to the number of domain names that you can manage using Route 53.
-		Answer:	True and False. With Route 53, there is a default limit of 50 domain names. However, this limit can be increased by contacting AWS support.
+			- True or False: There is a limit to the number of domain names that you can manage using Route 53.
+			  Answer:	True and False. With Route 53, there is a default limit of 50 domain names. 
+			  However, this limit can be increased by contacting AWS support.
 		
 		
 ==========================================================================================================================================================================================
