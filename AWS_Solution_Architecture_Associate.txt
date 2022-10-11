@@ -2551,10 +2551,11 @@ There is no charge for creating a placement group" and "The name of your placeme
 		  (ie which region will give them the fastest response time)
 		- To use latency-based routing, you create a latency resource record set for the Amazon EC2 (or ELB) 
 		  resource in each region that hosts your website.
-		  When Amazon Route 53 receives a query for your site, it selects the latency resource record set for 
-		  the region that gives the user the lowest 
-		  latency.
-		  Route 53 then responds with the value associated with that resource record set.
+		- When Amazon Route 53 receives a query for your site, it selects the latency resource record set for 
+		  the region that gives the user the lowest latency.
+		- Route 53 then responds with the value associated with that resource record set.
+		- Example:
+			Route53 sent the traffic to eu-west-2 becuase it has much lower latency that ap-southeast-2.
 		  
   ** Route 53 Failover Routing Policy - LAB
   		- Failover Routing policies are used when you want to create an active/passive set-up. 
@@ -2588,13 +2589,16 @@ There is no charge for creating a placement group" and "The name of your placeme
   ** Route 53 Multivalue Answer Routing Policy - LAB
         	- Multivalue Answer Routing lets you configure Amazon Route 53 to return multiple values, s
 		  such as IP addresses for your web servers, in response to DNS queries.
-		  You can specify multiple value for almost any record, but multivalue answer routing also 
+		- You can specify multiple value for almost any record, but multivalue answer routing also 
 		  lets you check the health of each resource, so Route 53 returns only values from healthy resources.
 		- This is similar to simple routing however it allows you to put health checks on each record set.
+		  f.y.i: health check monitors the health of your endpoints.
 		
   ** DNS Summary/Route 53 Exam Tips:
   	        - ELBs do not have pre-defined IPv4 addresses, you resolve them using a DNS name.
 		- Understand the difference between an Alias Record a CNAME.
+		- ** Alias records are unique to AWS, so its a way of translating naked domain name to a resource
+		     resource could be Elastic Load balancer or S3 bucket etc.
 		- Given the choice, always choose an Alias Record over a CNAME.
 		  Exam Question: You need to map your naked domain name or your zone apex record to an S3 bucket, what should you be using a CNAME or an Alias record?
 		  Answer: Alias record.
