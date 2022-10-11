@@ -2416,6 +2416,9 @@ There is no charge for creating a placement group" and "The name of your placeme
 ==========================================================================================================================================================================================
 
   ** Route53 Exam Tips
+  		- Route53 is DNS Service 
+		- To register a domain name u can use it as well
+		- Route53 is a global level
 	        - TLD : Top level Domain 
 		  e.g: com;.org;.gov etc 
 		- Top-level domain names are controlled by Internet Assigned Numbers Authority (IANA)
@@ -2517,8 +2520,14 @@ There is no charge for creating a placement group" and "The name of your placeme
 			- Multivalue Answer Routing
 			
   ** Route 53 Simple Routing Policy - LAB
-  		- You can only have one record with multiple IP addresses. If you specify multiple values in a record, Route 53 returns all values to the user in a random order.
-		  	You can't have any health checks.
+  		- You can only have one record with multiple IP addresses.
+		  Detail:
+		    when is say record I mean record type e.g SOA or NS etc 
+		    When I register a domain I usualy get few record type as well 
+		    e.g: NS : ns-61.aws.dns-07.com
+		         SOA: ns-558.awsdns-Os.net.awsdns-hostmaster.amazon.com
+		- If you specify multiple values in a record, Route 53 returns all values to the user in a random order.
+		- You can't have any health checks.
 			
   ** Route 53 Weighted Routing Policy - LAB
   		- Allows you to split your traffic based on different weights assigned.
