@@ -3269,7 +3269,7 @@ There is no charge for creating a placement group" and "The name of your placeme
 
 		- Network load balancers are best suited for load balancing TCP Traffic 
 		  where extreme performance is required. 
-		- Operating at the connection level - layer 4 
+		- Operating at the connection level - layer 4 (port)
 		- Network load balancer are capable of handling millions of request / sec
 		- while mataining ultra-low latencies
 		- Protocol that they use : TCP - UDP - TLS -  TCP_UDP
@@ -3277,8 +3277,11 @@ There is no charge for creating a placement group" and "The name of your placeme
 		- You can use TLS listner to offload the work of encryption and decryption to your load balancer
 		  so your application can focus on their business logic. 
 		- if the listner protocol is TLS, you must deploy exactly on SSL server cert on the listner.
-
-
+		- Other use cases where you need protocols support that are not supported by Application LB
+			i.e : anything other than http / https (port 80 and port 443)
+		- Network LB can decrypt traffic, but you will need to install the certificate on the load balancer.
+		
+	
 
 
 
