@@ -3214,9 +3214,59 @@ There is no charge for creating a placement group" and "The name of your placeme
 		  When the load balancer determines an instance is unhealthy, it stop routing requess to that instance.
 		- Health Checks check the instance health by talking to it.
 		- Load Balancers have their own DNS name. You are never given an IP address.
-		- Read the ELB FAQ for all Load Balancers.
-		- Want to deep dive on application load balancers? Check out our deep dive course!
-	
+		
+	** Application Load Balancers
+		An Application Load Balancers functiona at the Application Layer 7th layer of OSI (Open System Interconnection).
+		After the load balancer receives a request, 
+			- it evaluates the listner rules in priority order to determine
+			  which rule to apply
+			- then selects a target from the target group for the rule action.
+		*** Application Load balancers only support HTTP and HTTPS requests.
+		to use HTTP listner, you must deploy at least on SSL/TLS certificate on ur load balancer.
+		the loadbalancer uses a server certificate to tterminate the frontend connection and then
+		decrypt requests from clients before sending them to the targets.
+	       Listner:
+	       		- A listner checks for connection request from clients
+			  using protocol and port you configure.
+			- you define rules that determine how the load balancer 
+			  routes request to its registerd targets. 
+			- Each rule consists of a priority, 
+				1 or more actions 
+				1 or more conidtion.
+		Rules: 
+			- When the condition for a rule are met, then its action are performed
+			- you must define a default rule for each listner
+			- rule are like IF THEN statments 
+				IF request comes from this IP add
+				THAN route the request to this target group.
+	       Target Group:
+	       		- Each target group routes request to one or more registered targets 
+			  such as EC2 instances, using the protorcol and port # you specify
+			- Example:
+				I might have a target group for my 
+					- web servers 
+					- Media services - all my images on it
+					- Database servers 
+				Registered targets are EC2 instances that sits with in that target gropu
+				and than you will using protocol and port # you specify 
+				for webserve : 80 
+				for MySql    : 3306
+				
+				
+	    Path Based Routing:
+			You can create a listener with rules to forward requests based on the URL path. This is known as path-based routing.
+			If you are running microservices, you can route traffic to multiple back-end services using path-based routing.
+			For Example: you can route general requests to one target group and requests to render images to another target group
+			
+			Exam Scenario 1: 
+				We got a user and we are using Route 53 for our DNS, which is sending all the requests (100%) to a Load Balancer 
+				in AZ1, The first AZ1 has 4 EC2 instances and the second has only one EC2 instance.
+				www.myurl.com should go to AZ1 and www.myurl.com/images should go to the media instances in AZ2. 
+				In this instance, we enable Path Patterns.
+				
+				
+				
+				
 	** Advanced Load Balancers Theory
 		1. Sticky Sessions: 
 			Classic Load Balancer routes each request independently to the registered EC2 instance with the smallest load.
