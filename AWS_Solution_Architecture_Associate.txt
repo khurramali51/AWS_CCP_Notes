@@ -3174,16 +3174,44 @@ There is no charge for creating a placement group" and "The name of your placeme
 ==========================================================================================================================================================================================
 * HA Architecture (10 questions on Load balancers)
 ==========================================================================================================================================================================================
+	
 	** Elastic Load Balancers - Exam Tips
-		- Application Load Balancer (HTTP and HTTPS) - Layer 7 aware (make intelligent decisions/routing).
-		- Network Load Balancer (TCP, TLS and UDP) - Extreme Performance/Static IP Addresses.
-		- Classic Load Balancer (PREVIOUS GENERATION for HTTP, HTTPS, and TCP) - Test & Dev to keep costs low.
+		- ELB:
+			Automatically distributes incoming application traffic across multiple targests 
+			such as: Amazon EC2 instances This can be done across multiple AZs.
+		- Application Load Balancer :
+			- Best suited for (HTTP and HTTPS) traffic - Layer 7 aware (make intelligent decisions/routing).
+			- Intelligent Load Balance
+		- Network Load Balancer :
+			- Operates at the connection level
+			- capable of handling millions of records per seconds 
+			  while maintaining ulta-low latencies
+			- (TCP, TLS and UDP) - Extreme Performance/Static IP Addresses.
+			- layer 4
+		- Classic Load Balancer 
+			- legacy load balancers
+			- (PREVIOUS GENERATION for HTTP, HTTPS, and TCP) - Test & Dev to keep costs low.
+			- Layer 7 
 		- 504 Error means that the gateway has timed out. This means that the application not responding within the idle timeout period.
 		- Troubleshoot the application to figure out App/DB layer to scale it out or up.  
 		- If you need the IPv4 address of your end user, look for the X-Forwarded-For header.
 		
 	** Load Balancers and Health Checks
+		- All AWS load balancers can be configured with health checks. 
+		  Health checks periodically sends requests to load balancers' registered instances 
+		  to test their status.
+		  expl: it just quering the EC2 instances that are behind the load balancer; what its doing 
+		        is: its checking if they are all up & running.
+		  
 		- Instances monitored by ELB are reported as; InService, or OutofService
+			InService: 	the status of the instances that are healthy at the 
+				   	time of health check is InService.
+			OutService:  	Instance that are are unhealthy at the time of health
+					check is OutOfService.
+		- The load balancer performs health checks on all registered instances
+		  whether the instance is in a healthy state or unhealthy state.
+		- Load balancer routes requests only to the healthy instances. 
+		  When the load balancer determines an instance is unhealthy, it stop routing requess to that instance.
 		- Health Checks check the instance health by talking to it.
 		- Load Balancers have their own DNS name. You are never given an IP address.
 		- Read the ELB FAQ for all Load Balancers.
