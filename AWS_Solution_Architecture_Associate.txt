@@ -3265,7 +3265,27 @@ There is no charge for creating a placement group" and "The name of your placeme
 				In this instance, we enable Path Patterns.
 				
 				
-				
+	** Network Load Balancers
+
+		- Network load balancers are best suited for load balancing TCP Traffic 
+		  where extreme performance is required. 
+		- Operating at the connection level - layer 4 
+		- Network load balancer are capable of handling millions of request / sec
+		- while mataining ultra-low latencies
+		- Protocol that they use : TCP - UDP - TLS -  TCP_UDP
+		- Port : 1 - 65535
+		- You can use TLS listner to offload the work of encryption and decryption to your load balancer
+		  so your application can focus on their business logic. 
+		- if the listner protocol is TLS, you must deploy exactly on SSL server cert on the listner.
+
+
+
+
+
+
+
+
+
 				
 	** Advanced Load Balancers Theory
 		1. Sticky Sessions: 
