@@ -3282,7 +3282,25 @@ There is no charge for creating a placement group" and "The name of your placeme
 		- Network LB can decrypt traffic, but you will need to install the certificate on the load balancer.
 		
 	
-
+        ** Classic Load Balancer
+		- A 504 error means the gateway has time out. (Classic load balancer throws it)
+		  (this means the application is not responding within the idel timeout period)
+		- 504 means : application has issue 
+			- check for web server 
+			- check for Database server
+		- Classic load balancer layer 7 
+		- use for Http / Https requests 
+		- only utilized IvP4
+		- Uses layer 7 features such as:
+			- x-Forward-for
+			- sticky session 
+		- if a client send a request to your web site 
+			- classic load balaner is used since its Http or Https request
+			- EC2 logs - contains server access logs that will contains 
+				- local or internal IP address of the proxy server or load balance
+				- to view client external IP 
+					- get x-forward-for from header section. 
+		-
 
 
 
