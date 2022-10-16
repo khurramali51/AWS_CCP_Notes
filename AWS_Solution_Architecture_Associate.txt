@@ -3409,17 +3409,114 @@ There is no charge for creating a placement group" and "The name of your placeme
 		
               ============================================== End of Load Balancing =====================================
 	      
+	 =============================================================================================================================
+	 							High Availability
+	 =============================================================================================================================
 	      
-	      
-	      
-	      
-	      
+	 3.1 Horizontally vs Vertical Scaling 
+	 
+	    3 W's of Scaling
+	    - What:
+	    	what do we scale? 
+		we have to decide what sort of resource we are going to scale.
+		how do we define the template 
+	    - Where:
+	    	Where to we scale?
+		When applying the model, where does it goes? 
+		Should we scale out database ? or Webserver ? 
+	    - When:
+	    	When do we scale? 
+		How do we know we need more? 
+		Cloud watch alarms that tell us when its time to add more resource.
+	
+	3.2 Launch templates/ Configuration? 
+	    This will answer the WHAT of scaling.
+	   
+	    + Launch Template:
+	    	- I have to specify key/pair when creating the template
+		- if we specify vpc while creating launch template; that template can not be use
+		  in the auto scaling group.
+		- Bare Minimum for Launch Template
+			- On the exam its critcal to understand what goes into the launch template.
+			  it includes 
+			  	AMI, EC2-instance size, security group & netwroking information
+	   
+	    ** Exam Tips:
+	    	- launch templates are the most        - launch Configuration
+			up to date 				older verion
+			flexible 			    	not wrong , but not recommended
+			versionable 
+			recommended by AWS
+		- User Data: 
+		     user date is included in the template or configuration to bootstrap the EC2 instance 
+		     	e.g: like adding bash cmd to start a webserver when EC2 instance launches or start
+		- Change 
+			- launch template can be version ctrl: means we can save differt copies 
+			  with differnt values etc.
+			- launch configuration are immutable: means they we can copy & past them
+			  but can not add new values etc ; they are not able to be versioned. 
+		- Networking
+			-  template 
+			   if you choose to include networking informaiton in those templates 
+			   remember -> we can not use them in autoscaling groups
+			-  configuration
+			   launch configs don't include networking information at all 
+			   only the security group information 
+		  
+	3.3 Scaling Ec2 instances with Auto Scaling: [WHERE]
+		- Auto Scaling group: its a collection of Ec2 instance ; that we group to gether 
+				      for scaling & Management purpose.
+		- Steps for Auto Scaling:
+			1. Define your template
+				-you have to pick your defined template
+			2. Networking & Purchasing
+				-pick your networking space and purchasing options. Using Multiple AZ 
+				 allow for high availability.
+				-Remember autoscaling group defines the networking information
+					e.g : how many AZ we need to use : answer : atleast 2
+				-We can use auto scaling config to provisioned diff type of EC2 instance 
+					e.g : do we need spot Ec2 instances 
+					      or we need Reserved or onDemand Ec2 instances
+			3. Load Balancer
+				-load balancer sits in front of my auto scaling group 
+				-when the ec2 instance come online they get registerd behind a LB 
+				-when they taken away (offline) they get de-registered
+				-auto scaling can use health check of a Load balaner
+					- always enables health check
+			4. Scaling policies 
+				-Min, Max and desired capacity of EC2 instances 
+					desired means: what is # of Ec2 instance that we need rite now
+					it has to be between Min & Max 
+					i.e    Desired >= Min && Desired <= Max
+			5. Notification
+				-SNS (simple notification services)
+				-let you know when a scaling event occors etc.
+		- Auto Scaling and High Availability goes hand in hand 
+		- we want to ensure that we are creating an autoscaling group across multiple availablity zones
+		  so if there is outage we have that redundency.
+		- Remember to select answer that spread resource out over multiple AS and utilize load balancers.
+		- Networking 
+			-Networking space is defined in the auto scaling group; to ensure we can use multiple subnets
+			 that spans multiple availablity zones
+			 we need atleast 2 AZ to spread out our architecture.
+			-Auto scaling groups will contain the location of where your instance will live. 
+		- ELB
+			- autoscaling and LB goes hand in hand as well 
+			- it is vital to select a load balane for the instances to live behind.
+		- Limits 
+			- Min,Max and desire are the 3 mosst import settings 
+		- Notificatin 
+			- SNS can act as notification tool. (usually pushed based notification)
+		- Balancing 
+			- Autoscaling will balance your EC2 instance across the AZs
+			
+			  
 	      
 	** Launch Configurations and Auto Scaling Groups - Demo
 		- Create a Launch Configuration and then use Launch Configuration during Auto Scaling Group creation
 		- During Auto Scaling - there is warmup of 300 secs for new instances
 		
-	** HA Architecture
+	** HA Architecture 
 		- Always Design for failure
 		- Use Multiple AZ's and Multiple Regions where ever you can.
 		- Know the difference between Multi-AZ and Read Replicas for RDS.
