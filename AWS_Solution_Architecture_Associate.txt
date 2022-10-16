@@ -3523,6 +3523,13 @@ There is no charge for creating a placement group" and "The name of your placeme
 			 we have 10 Ec2 instance waiting and we have a set timer for how long I am not going to health check 
 			 the upcoming Ec2 instances.
 			-CoolDown:
+			 pauses Auto scaling for a set amout of time. helps to aovid runaway scaling events.its like warup 
+			 but it applies to both creation and termination events. the default window for cool down period 
+			 is 5 minutes
+		- Avoid Thrashing
+			 -Thrashing is when your scaling up and down frequently, 
+			 -warm and cool down process help avoid thrashing.
+			 
 		-Exam tip:
 			1. scale out [means : adding more nodes] aggressively (get a head of workload) 
 			2. Sacle in  [means : terminate nodes ] Conservatively 
@@ -3532,6 +3539,11 @@ There is no charge for creating a placement group" and "The name of your placeme
 				    you can use from RI to spot instances or Reserved instances 
 			5. CloudWatch : Ur # 1 tool for Alerting Auto scaling 
 			   			that you need more or less of something.
+			6. Steady state auto scaling group: 
+			   	- min = 1 ; max = 1 and desired = 1
+				- there are some application that you can not have on multiple copies of EC2
+				  instances. You still wanted to be highly available, and for that this is the 
+				  savest bet. 
 		
 		
 		
