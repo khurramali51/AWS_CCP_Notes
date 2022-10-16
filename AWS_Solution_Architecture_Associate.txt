@@ -3390,21 +3390,7 @@ There is no charge for creating a placement group" and "The name of your placeme
 		   For Example: you can configure a group to scale based on the occurence of specified conditions 
 		   (dynamic scaling) or on a schedule.   
 		
-		What are my scaling options: (Exam Tips)
-			1. Maintain current instance levels at all times - Performs periodic health checks and 
-			   launches a new one when an instance is unhealthy.
-			2. Scale Manually - the most basic way to scale your resources where you specify Min size, 
-			   Desired Capacity, Max Size of your Auto Scaling group.
-			   Amazon EC2 Auto scaling manages the process of creating or terminating instances to maintain 
-			   the updated capacity.
-			3. Scale based on a schedule: based on date and time and predictable schedule.
-			4. Scaled based on a demand: A more advanced way to scale your resources using scaling policies, 
-			   which let you define parameters that control the scaling process.
-			5. Use predictive scaling: You can use Amazon EC2 Auto Scaling with Amazon Auto Scaling to scale
-			   resources across multiple services.
-			   AWS Auto Scaling can help you maintain optimal availability and performance by combing 
-			   predictive scaling and dynamic scaling (proactive and reactive, respectively)
-			   to scale your Amazon EC2 capacity faster.	
+			
 		
 		
               ============================================== End of Load Balancing =====================================
@@ -3510,7 +3496,45 @@ There is no charge for creating a placement group" and "The name of your placeme
 		- Balancing 
 			- Autoscaling will balance your EC2 instance across the AZs
 			
-			  
+	3.4 Diving Deeper into AutoScalling Policies (WHEN)
+		What are my scaling options: 
+			1. Maintain current instance levels at all times - Performs periodic health checks and 
+			   launches a new one when an instance is unhealthy.
+			2. Scale Manually - the most basic way to scale your resources where you specify Min size, 
+			   Desired Capacity, Max Size of your Auto Scaling group.
+			   Amazon EC2 Auto scaling manages the process of creating or terminating instances to maintain 
+			   the updated capacity.
+			3. Scale based on a schedule: based on date and time and predictable schedule.
+			4. Scaled based on a demand (a.k.a Reactive Scaling): A more advanced way to scale your resources 
+			   using scaling policies, which let you define parameters that control the scaling process.
+			5. Use predictive scaling: You can use Amazon EC2 Auto Scaling with Amazon Auto Scaling to scale
+			   resources across multiple services.
+			   AWS Auto Scaling can help you maintain optimal availability and performance by combing 
+			   predictive scaling and dynamic scaling (proactive and reactive, respectively)
+			   to scale your Amazon EC2 capacity faster.
+	        - What is Warmup & CoolDown:
+			-WarUp:
+			 when you scale out let say 10 EC2 instance, do you think they will come online automatically
+			 the short answer is NO. provision Ec2 instances takes time. Auto  scalling knows that - it managed to 
+			 prepare the Ec2 instances - but they are not ready just yet,(becuase so many things needs to run 
+			 may be I have user data - that needs to run etc) and if they are registered behind the load balancer, 
+			 the health check will failed immediately (the reason: the Ec2 instances are still coming up). This 
+			 is where the warm up period comes in. Warm up period is when Auto scaling just paused, it knows 
+			 we have 10 Ec2 instance waiting and we have a set timer for how long I am not going to health check 
+			 the upcoming Ec2 instances.
+			-CoolDown:
+		-Exam tip:
+			1. scale out [means : adding more nodes] aggressively (get a head of workload) 
+			2. Sacle in  [means : terminate nodes ] Conservatively 
+			   ONce the instance are up, slaowly roll them back when not needed
+			3. Provisioning : Keep an eye on provesioning times, Bake those AMIs to minimize it
+			4. Costs : Use EC2 Reserve Instance for minimum count of EC2 Instance 
+				    you can use from RI to spot instances or Reserved instances 
+			5. CloudWatch : Ur # 1 tool for Alerting Auto scaling 
+			   			that you need more or less of something.
+		
+		
+		
 	      
 	** Launch Configurations and Auto Scaling Groups - Demo
 		- Create a Launch Configuration and then use Launch Configuration during Auto Scaling Group creation
